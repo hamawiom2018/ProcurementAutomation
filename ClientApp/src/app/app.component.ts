@@ -3,7 +3,6 @@ import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { OAuthService } from 'angular-oauth2-oidc';
 
 import { AuthenticationService } from './services/authentication.service';
 import { User } from './models/user';
@@ -26,17 +25,9 @@ export class AppComponent implements OnInit {
 
     constructor(
         public title: Title,
-        private oAuthService: OAuthService,
         private authenticationService: AuthenticationService,
         private router: Router
-    ) {
-        if (this.oAuthService.hasValidAccessToken()) {
-            this.authenticationService.init();
-
-            // Strategy for refresh token through a scheduler.
-            this.authenticationService.startupTokenRefresh();
-        }
-    }
+    ) { }
 
     ngOnInit() {
         this.title.setTitle('Angular SPA WebAPI');
