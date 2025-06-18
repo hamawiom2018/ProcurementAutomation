@@ -1,8 +1,6 @@
 ﻿import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-
-import { OAuthService } from 'angular-oauth2-oidc';
-
+import { HttpClient } from '@angular/common/http';
 import { AuthenticationService } from '../../services/authentication.service';
 import { IdentityService } from '../../services/identity.service';
 import { Signin } from '../signin';
@@ -13,11 +11,11 @@ import { Signin } from '../signin';
 export class SignupComponent extends Signin {
 
     constructor(
+        protected http: HttpClient,
         protected router: Router,
-        protected oAuthService: OAuthService,
         protected authenticationService: AuthenticationService,
         private identityService: IdentityService) {
-        super(router, oAuthService, authenticationService);
+        super(http, router, authenticationService);
     }
 
     signup(): void {

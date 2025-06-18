@@ -1,9 +1,7 @@
-﻿import { Router } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
-
-import { OAuthService } from 'angular-oauth2-oidc';
-
+import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { AuthenticationService } from '../services/authentication.service';
+import { User } from '../models/user';
 
 /**
  * Provides signin method to signin & signup components.
@@ -15,41 +13,22 @@ export class Signin {
     errorMessages: any[] = [];
 
     constructor(
+        protected http: HttpClient,
         protected router: Router,
-        protected oAuthService: OAuthService,
         protected authenticationService: AuthenticationService) { }
 
     signin(): void {
-        this.oAuthService
-            .fetchTokenUsingPasswordFlowAndLoadUserProfile(this.model.username, this.model.password)
-            .then(() => {
-                this.authenticationService.init();
-
-                // Strategy for refresh token through a scheduler.
-                this.authenticationService.scheduleRefresh();
-
-                // Gets the redirect URL from authentication service.
-                // If no redirect has been set, uses the default.
-                const redirect: string = this.authenticationService.redirectUrl
-                    ? this.authenticationService.redirectUrl
-                    : '/home';
-                // Redirects the user.
-                this.router.navigate([redirect]);
-            })
-            .catch((errorResponse: HttpErrorResponse) => {
-                // Checks for error in response (error from the Token endpoint).
-                if (errorResponse.error !== '') {
-                    switch (errorResponse.error.error) {
-                        case 'invalid_grant':
-                            this.errorMessages.push({ description: 'Invalid email or password.' });
-                            break;
-                        default:
-                            this.errorMessages.push({ description: 'Unexpected error. Try again.' });
-                    }
-                } else {
-                    this.errorMessages.push({ description: 'Server error. Try later.' });
-                }
-            });
+        this.http.post('/api/auth/login', this.model)
+            .subscribe(
+                () => {
+                    const user = new User();
+                    user.userName = this.model.username;
+                    user.roles = [this.model.username.indexOf('admin') !== -1 ? 'administrator' : 'user'];
+                    this.authenticationService.init(user);
+                    this.router.navigate(['/home']);
+                },
+                () => this.errorMessages.push({ description: 'Invalid email or password.' })
+            );
     }
 
     clearMessages(): void {

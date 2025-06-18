@@ -16,7 +16,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using AngularSPAWebAPI.Services;
-using IdentityServer4.AccessTokenValidation;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace AngularSPAWebAPI
 {
@@ -58,52 +58,20 @@ namespace AngularSPAWebAPI
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromDays(1);
             });
 
-            // Role based Authorization: policy based role checks.
-            services.AddAuthorization(options =>
-            {
-                // Policy for dashboard: only administrator role.
-                options.AddPolicy("Manage Accounts", policy => policy.RequireRole("administrator"));
-                // Policy for resources: user or administrator roles. 
-                options.AddPolicy("Access Resources", policy => policy.RequireRole("administrator", "user"));
-            });
-
             // Adds application services.
             services.AddTransient<IDbInitializer, DbInitializer>();
 
-            // Adds IdentityServer.
-            services.AddIdentityServer()
-                // The AddDeveloperSigningCredential extension creates temporary key material for signing tokens.
-                // This might be useful to get started, but needs to be replaced by some persistent key material for production scenarios.
-                // See http://docs.identityserver.io/en/release/topics/crypto.html#refcrypto for more information.
-                .AddDeveloperSigningCredential()
-                .AddInMemoryPersistedGrants()
-                // To configure IdentityServer to use EntityFramework (EF) as the storage mechanism for configuration data (rather than using the in-memory implementations),
-                // see https://identityserver4.readthedocs.io/en/release/quickstarts/8_entity_framework.html
-                .AddInMemoryIdentityResources(Config.GetIdentityResources())
-                .AddInMemoryApiResources(Config.GetApiResources())
-                .AddInMemoryClients(Config.GetClients())
-                .AddAspNetIdentity<ApplicationUser>(); // IdentityServer4.AspNetIdentity.
+            services.Configure<AdOptions>(Configuration.GetSection("LocalAd"));
 
-            if (currentEnvironment.IsProduction())
+            // Cookie authentication.
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie();
+
+            services.AddAuthorization(options =>
             {
-                services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
-                    .AddIdentityServerAuthentication(options =>
-                    {
-                        options.Authority = "https://angularspawebapi.azurewebsites.net/";
-                        options.RequireHttpsMetadata = false;
-                        options.ApiName = "WebAPI";
-                    });
-            }
-            else
-            {
-                services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
-                    .AddIdentityServerAuthentication(options =>
-                    {
-                        options.Authority = "https://localhost:5001/";
-                        options.RequireHttpsMetadata = false;
-                        options.ApiName = "WebAPI";
-                    });
-            }
+                options.AddPolicy("Manage Accounts", policy => policy.RequireRole("administrator"));
+                options.AddPolicy("Access Resources", policy => policy.RequireRole("administrator", "user"));
+            });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
@@ -134,7 +102,9 @@ namespace AngularSPAWebAPI
 
             app.UseHttpsRedirection();
 
-            app.UseIdentityServer();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             // Microsoft.AspNetCore.StaticFiles: API for starting the application from wwwroot.
             // Uses default files as index.html.
