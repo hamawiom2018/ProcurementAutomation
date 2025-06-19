@@ -22,9 +22,9 @@ namespace AngularSPAWebAPI
 {
     public class Startup
     {
-        private readonly IHostingEnvironment currentEnvironment;
+        private readonly IWebHostEnvironment currentEnvironment;
 
-        public Startup(IConfiguration configuration, IHostingEnvironment env)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
             currentEnvironment = env;
@@ -73,7 +73,7 @@ namespace AngularSPAWebAPI
                 options.AddPolicy("Access Resources", policy => policy.RequireRole("administrator", "user"));
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddControllersWithViews();
 
             services.AddSpaStaticFiles(configuration =>
             {
@@ -89,7 +89,7 @@ namespace AngularSPAWebAPI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -102,6 +102,7 @@ namespace AngularSPAWebAPI
 
             app.UseHttpsRedirection();
 
+            app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();
@@ -112,11 +113,11 @@ namespace AngularSPAWebAPI
 
             app.UseSpaStaticFiles();
 
-            app.UseMvc(routes =>
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "default",
-                    template: "{controller}/{action=Index}/{id?}");
+                    pattern: "{controller}/{action=Index}/{id?}");
             });
 
             app.UseSpa(spa =>
