@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 
 interface WeatherForecast {
@@ -12,7 +12,7 @@ interface WeatherForecast {
 @Component({
   selector: 'app-fetch-data',
   standalone: true,
-  imports: [CommonModule, HttpClientModule],
+  imports: [CommonModule],
   templateUrl: './fetch-data.component.html'
 })
 export class FetchDataComponent {
