@@ -1,0 +1,35 @@
+      <header>
+        <h1>تحديد الإدارات ذات العلاقة</h1>
+        <p>يرجى اختيار الإدارات التي تحتاج إلى مراجعة الطلب وترتيبها حسب التسلسل.</p>
+      </header>
+
+      <form id="departments-form">
+        <div class="form-group">
+          <label for="department-select">اختر الإدارة</label>
+          <select id="department-select">
+            <option value="">-- اختر --</option>
+            <option value="تقنية المعلومات">تقنية المعلومات</option>
+            <option value="الإدارة المالية">الإدارة المالية</option>
+            <option value="الأمن السيبراني">الأمن السيبراني</option>
+            <option value="المحتوى المحلي">المحتوى المحلي</option>
+            <option value="إدارة العقود">إدارة العقود</option>
+            <option value="الاستشارات القانونية">الاستشارات القانونية</option>
+          </select>
+          <button type="button" onclick="addDepartment()">إضافة</button>
+        </div>
+
+        <table id="departments-table">
+          <thead>
+            <tr>
+              <th>الترتيب</th>
+              <th>الإدارة</th>
+              <th>الإجراءات</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+
+        <div style="margin-top: 30px;">
+          <button type="submit" class="submit-btn">حفظ ومتابعة</button>
+        </div>
+      </form>

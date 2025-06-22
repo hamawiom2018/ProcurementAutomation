@@ -1,0 +1,59 @@
+            <header>
+                <h1>طلب مشروع جديد</h1>
+            </header>
+
+            <form class="project-form">
+                <div class="form-group">
+                    <label for="project-name">اسم المنافسة *</label>
+                    <input type="text" id="project-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="competition-purpose">الغرض من المنافسة *</label>
+                    <textarea id="competition-purpose" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="included-in-plan">ضمن الخطة المعتمدة؟ *</label>
+                    <select id="included-in-plan" required>
+                        <option value="">-- اختر --</option>
+                        <option value="yes">نعم</option>
+                        <option value="no">لا</option>
+                    </select>
+                </div>
+                <div class="form-group" id="plan-reason-group" style="display: none;">
+                    <label for="plan-reason">سبب عدم إدراج المشروع ضمن الخطة *</label>
+                    <textarea id="plan-reason" rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="duration">مدة التنفيذ المتوقعة (بالأشهر) *</label>
+                    <input type="number" id="duration" min="1" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="price-range">النطاق السعري المتوقع *</label>
+                    <select id="price-range" required>
+                        <option value="">-- اختر النطاق --</option>
+                        <option value="lt_100k">إلى 100,000</option>
+                        <option value="101k_500k">(500,000 | 101,000)</option>
+                        <option value="501k_1m">(1,000,000 | 501,000)</option>
+                        <option value="gt_1m">أكثر من 1,000,000</option>
+                        <option value="gt_5m">أكثر من 5,000,000</option>
+                        <option value="gt_25m">أكثر من 25,000,000</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="tender-doc">مرفق الكراسة (ملف Word) *</label>
+                    <input type="file" id="tender-doc" accept=".doc,.docx" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="cost-pdf">مرفق نموذج التكلفة التقديرية (PDF)</label>
+                    <input type="file" id="cost-pdf" accept=".pdf">
+                    <small class="note">📌 يجب أن يكون النموذج موقعًا يدويًا من المدير المباشر.</small>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="submit-btn">إرسال الطلب</button>
+                </div>
+            </form>
+

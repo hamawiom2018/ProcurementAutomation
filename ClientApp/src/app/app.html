@@ -1,4 +1,16 @@
-<app-nav-menu></app-nav-menu>
-<main class="container">
-  <router-outlet></router-outlet>
-</main>
+<div class="master-container">
+  <aside class="sidebar">
+    <div class="logo-container">
+      <img src="/StaticPages/images/logo.png" alt="الشعار" class="logo regular-theme">
+    </div>
+    <nav>
+      <ul>
+        <li routerLinkActive="active"><a routerLink="/dashboard">الرئيسية</a></li>
+        <li routerLinkActive="active"><a routerLink="/project-requests">طلبات المشاريع</a></li>
+      </ul>
+    </nav>
+  </aside>
+  <main class="dashboard">
+    <router-outlet></router-outlet>
+  </main>
+</div>
