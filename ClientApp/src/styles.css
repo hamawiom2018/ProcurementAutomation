@@ -1,30 +1,30 @@
 @font-face {
   font-family: 'DIN Next LT Arabic';
-  src: url('/StaticPages/fonts/DIN Next LT Arabic Ultra Light.ttf') format('truetype');
+  src: url('/assets/fonts/DIN Next LT Arabic Ultra Light.ttf') format('truetype');
   font-weight: 200;
 }
 
 @font-face {
   font-family: 'DIN Next LT Arabic';
-  src: url('/StaticPages/fonts/DIN Next LT Arabic Light.ttf') format('truetype');
+  src: url('/assets/fonts/DIN Next LT Arabic Light.ttf') format('truetype');
   font-weight: 300;
 }
 
 @font-face {
   font-family: 'DIN Next LT Arabic';
-  src: url('/StaticPages/fonts/DIN Next LT Arabic Regular.ttf') format('truetype');
+  src: url('/assets/fonts/DIN Next LT Arabic Regular.ttf') format('truetype');
   font-weight: 400;
 }
 
 @font-face {
   font-family: 'DIN Next LT Arabic';
-  src: url('/StaticPages/fonts/DIN Next LT Arabic Medium.ttf') format('truetype');
+  src: url('/assets/fonts/DIN Next LT Arabic Medium.ttf') format('truetype');
   font-weight: 500;
 }
 
 @font-face {
   font-family: 'DIN Next LT Arabic';
-  src: url('/StaticPages/fonts/DIN Next LT Arabic Bold.ttf') format('truetype');
+  src: url('/assets/fonts/DIN Next LT Arabic Bold.ttf') format('truetype');
   font-weight: 700;
 }
 
