@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+    <meta charset="UTF-8">
+    <title>مراجعة طلب - موظف المشتريات</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="master-container">
+        <aside class="sidebar">
+            <div class="logo-container">
+                <img src="images/logo.png" alt="الشعار" class="logo regular-theme">
+                <img src="images/logo-dark.png" alt="الشعار" class="logo dark-theme" style="display:none;">
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li class="active"><a href="#">مراجعة موظف المشتريات</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="dashboard">
+            <header>
+                <h1>مراجعة طلب مشروع</h1>
+            </header>
+
+            <section class="project-summary">
+                <h2>بيانات الطلب</h2>
+                <p><strong>اسم المشروع:</strong> تطوير البوابة الداخلية</p>
+                <p><strong>مدير المشروع:</strong> أحمد خالد</p>
+                <p><strong>مدة التنفيذ:</strong> 6 أشهر</p>
+                <p><strong>النطاق السعري:</strong> (500,000 | 101,000)</p>
+                <p><strong>الغرض من المنافسة:</strong> تحسين تجربة الوصول للخدمات الداخلية</p>
+            </section>
+
+            <form class="procurement-form">
+                <div class="form-group">
+                    <label for="tender-type">نوع المنافسة *</label>
+                    <select id="tender-type" required>
+                        <option value="">-- اختر --</option>
+                        <!-- 
+منافسة عامة
+منافسة إتفاقية إطارية
+منافسة محدودة
+منافسة على مرحلتين (المرحلة الأولى)
+منافسة على مرحلتين (المرحلة الثانية)
+شراء مباشر -->
+                        <option value="open">منافسة عامة</option>
+                        <option value="framework">منافسة إتفاقية إطارية</option>
+                        <option value="limited">منافسة محدودة</option>
+                        <option value="two_stage_first">منافسة على مرحلتين (المرحلة الأولى)</option>
+                        <option value="two_stage_second">منافسة على مرحلتين (المرحلة الثانية)</option>
+                        <option value="direct_purchase">شراء مباشر</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="tender-activity">نشاط المنافسة *</label>
+                    <select id="tender-activity" required>
+                        <option value="">-- اختر النشاط --</option>
+                        <!--
+خدمات النشر والطباعة والدعاية والإعلان والإنتاج الفني
+صنع الحواسيب والمنتجات الإلكترونية والبصرية
+اتصالات
+تقنية المعلومات
+أنشطة التعليم
+مقاولات الإنشاءات العامة (التشييد و بناء المرافق العامة)
+مقاولات عامة للمباني (الإنشاء، الإصلاح، الهدم، الترميم)
+مقاولات فرعية تخصصية (أنشطة التشييد المتخصصة)
+تشغيل والصيانة والنظافة للمنشآت - التشغيل والصيانة
+أنشطة التدريب
+التوظيف
+أنشطة الأمن و السلامة
+الخدمات التجارية و الإدارية
+الخدمات الاجتماعية
+أنشطة التأمين
+أنشطة النقل والتخزين
+أنشطة الاستشارات القانونية
+أنشطة الاستشارات المالية
+أنشطة الاستشارات الإدارية
+أنشطة الاستشارات الهندسية
+أنشطة الاستشارات و الترجمة
+الأنشطة الاستشارية الأخرى
+أنشطة المعارض والمؤتمرات-->
+                        <option value="printing">خدمات النشر والطباعة والدعاية والإعلان والإنتاج الفني</option>
+                        <option value="electronics">صنع الحواسيب والمنتجات الإلكترونية والبصرية</option>
+                        <option value="communications">اتصالات</option>
+                        <option value="it">تقنية المعلومات</option>
+                        <option value="education">أنشطة التعليم</option>
+                        <option value="construction">مقاولات الإنشاءات العامة (التشييد و بناء المرافق العامة)</option>
+                        <option value="building_contracts">مقاولات عامة للمباني (الإنشاء، الإصلاح، الهدم، الترميم)
+                        </option>
+                        <option value="specialized_contracts">مقاولات فرعية تخصصية (أنشطة التشييد المتخصصة)</option>
+                        <option value="operation_maintenance">تشغيل والصيانة والنظافة للمنشآت - التشغيل والصيانة
+                        </option>
+                        <option value="training">أنشطة التدريب</option>
+                        <option value="recruitment">التوظيف</option>
+                        <option value="security_safety">أنشطة الأمن و السلامة</option>
+                        <option value="commercial_services">الخدمات التجارية و الإدارية</option>
+                        <option value="social_services">الخدمات الاجتماعية</option>
+                        <option value="insurance_services">أنشطة التأمين</option>
+                        <option value="transport_storage">أنشطة النقل والتخزين</option>
+                        <option value="legal_consulting">أنشطة الاستشارات القانونية</option>
+                        <option value="financial_consulting">أنشطة الاستشارات المالية</option>
+                        <option value="management_consulting">أنشطة الاستشارات الإدارية</option>
+                        <option value="engineering_consulting">أنشطة الاستشارات الهندسية</option>
+                        <option value="translation_consulting">أنشطة الاستشارات و الترجمة</option>
+                        <option value="other_consulting">الأنشطة الاستشارية الأخرى</option>
+                        <option value="events_exhibitions">أنشطة المعارض والمؤتمرات</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="local-terms">شروط وأحكام المحتوى المحلي – القائمة الإلزامية *</label>
+                    <select id="local-terms" required>
+                        <option value="">-- اختر --</option>
+                        <option value="applies">ينطبق</option>
+                        <option value="not_applies">لا ينطبق</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="local-content-group" style="display: none;">
+                    <label for="local-content">آليات المحتوى المحلي</label>
+                    <select id="local-content">
+                        <!--
+تفضيل المنشآت الصغيرة والمتوسطة
+آلية التفضيل السعري للمنتج الوطني
+آلية وزن المحتوى المحلي في التقييم المالي
+آلية الحد الأدنى المطلوب للمحتوى المحلي-->
+                        <option value="sme_preference">تفضيل المنشآت الصغيرة والمتوسطة</option>
+                        <option value="national_product_preference">آلية التفضيل السعري للمنتج الوطني</option>
+                        <option value="local_content_weighting">آلية وزن المحتوى المحلي في التقييم المالي</option>
+                        <option value="minimum_local_content">آلية الحد الأدنى المطلوب للمحتوى المحلي</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label><strong>الإجراء المطلوب *</strong></label>
+                    <div>
+                        <label>
+                            <input type="radio" name="action" value="continue" onclick="handleActionChange()"> حفظ
+                            ومتابعة لتحديد الإدارات ذات العلاقة
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            <input type="radio" name="action" value="return" onclick="handleActionChange()"> إرجاع الطلب
+                            لمقدم الطلب
+                        </label>
+                    </div>
+                </div>
+
+                <div id="return-note" style="display: none; margin-top: 15px;">
+                    <label for="return-comments"><strong>ملاحظات الإرجاع *</strong></label>
+                    <textarea id="return-comments" rows="4" placeholder="يرجى توضيح سبب الإرجاع..."></textarea>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <button type="button" class="submit-btn" onclick="submitReview()">إرسال</button>
+                </div>
+            </form>
+
+            <section class="timeline">
+                <h2>سجل حركة الطلب</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>المرحلة</th>
+                            <th>الجهة المنفذة</th>
+                            <th>الوقت</th>
+                            <th>الملاحظات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>تقديم الطلب</td>
+                            <td>أحمد خالد (مدير المشروع)</td>
+                            <td>2025-05-27 09:30</td>
+                            <td>تم إدخال الطلب</td>
+                        </tr>
+                        <tr>
+                            <td>اعتماد المدير المباشر</td>
+                            <td>م. أحمد السلمي</td>
+                            <td>2025-05-27 11:00</td>
+                            <td>موافقة</td>
+                        </tr>
+                        <tr>
+                            <td>مراجعة نموذج التكلفة</td>
+                            <td>محمد الوابل</td>
+                            <td>2025-05-28 10:20</td>
+                            <td>تم الاعتماد</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        const localTerms = document.getElementById('local-terms');
+        const localContentGroup = document.getElementById('local-content-group');
+
+        localTerms.addEventListener('change', () => {
+            if (localTerms.value === 'applies') {
+                localContentGroup.style.display = 'block';
+            } else {
+                localContentGroup.style.display = 'none';
+            }
+        });
+        function handleActionChange() {
+            const selectedAction = document.querySelector('input[name="action"]:checked').value;
+            const returnNote = document.getElementById("return-note");
+            returnNote.style.display = (selectedAction === "return") ? "block" : "none";
+        }
+
+        function submitReview() {
+            const selected = document.querySelector('input[name="action"]:checked');
+            if (!selected) {
+                alert("يرجى اختيار الإجراء المطلوب");
+                return;
+            }
+
+            if (selected.value === "return") {
+                const notes = document.getElementById("return-comments").value.trim();
+                if (!notes) {
+                    alert("يرجى إدخال ملاحظات الإرجاع");
+                    return;
+                }
+                alert("تم إرجاع الطلب مع الملاحظات");
+            } else {
+                alert("تم الحفظ ومتابعة تحديد الإدارات ذات العلاقة");
+            }
+
+            // هنا تقدر تضيف الكود لإرسال النموذج فعليًا
+        }
+    </script>
+</body>
+
+</html>

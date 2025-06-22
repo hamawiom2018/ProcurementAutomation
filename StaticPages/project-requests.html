@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+    <meta charset="UTF-8">
+    <title>طلبات المشاريع</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="project-requests.js" defer></script>
+</head>
+
+<body>
+    <div class="master-container">
+        <aside class="sidebar">
+            <div class="logo-container">
+                <img src="images/logo.png" alt="الشعار" class="logo regular-theme">
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li class="active"><a href="project-requests.html">طلبات المشاريع</a></li>
+                    <li><a href="#">دورة المراجعة</a></li>
+                    <li><a href="#">الموافقات</a></li>
+                    <li><a href="#">المخطط الزمني</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="dashboard">
+            <div class="top-actions">
+                <a href="new-project-request.html" class="new-request-btn">+ طلب مشروع جديد</a>
+            </div>
+            <header>
+                <h1>طلبات المشاريع</h1>
+            </header>
+
+            <section class="requests-list">
+                <table id="requests-table">
+                    <thead>
+                        <tr>
+                            <th>رقم الطلب</th>
+                            <th>اسم المشروع</th>
+                            <th>نوع المنافسة</th>
+                            <th>الحالة</th>
+                            <th>تاريخ التقديم</th>
+                        </tr>
+                    </thead>
+                    <tbody id="requests-body">
+                        <!-- تعبئة البيانات من JavaScript -->
+                    </tbody>
+                </table>
+                <div class="pagination">
+                    <button id="prev-page">السابق</button>
+                    <span id="page-info"></span>
+                    <button id="next-page">التالي</button>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+
+</body>
+
+</html>

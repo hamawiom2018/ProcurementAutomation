@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+    <meta charset="UTF-8">
+    <title>تعديل طلب مشروع مُعاد</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="master-container">
+        <aside class="sidebar">
+            <div class="logo-container">
+                <img src="images/logo.png" alt="الشعار" class="logo regular-theme">
+                <img src="images/logo-dark.png" alt="الشعار" class="logo dark-theme" style="display:none;">
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li class="active"><a href="#">تعديل طلب مُعاد</a></li>
+                    <li><a href="project-requests.html">طلبات المشاريع</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="dashboard">
+            <header>
+                <h1>تعديل طلب مشروع مُعاد</h1>
+            </header>
+
+            <section class="edit-request">
+
+
+                <form class="project-form">
+                    <div class="form-group">
+                        <label for="project-name">اسم المشروع</label>
+                        <input type="text" id="project-name" value="تطوير البوابة الداخلية">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="included-in-plan">ضمن الخطة المعتمدة؟</label>
+                        <select id="included-in-plan">
+                            <option value="yes" selected>نعم</option>
+                            <option value="no">لا</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" id="plan-reason-group" style="display: none;">
+                        <label for="plan-reason">سبب عدم إدراج المشروع ضمن الخطة</label>
+                        <textarea id="plan-reason" rows="3"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="duration">مدة التنفيذ المتوقعة (بالأشهر)</label>
+                        <input type="number" id="duration" value="6">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="price-range">النطاق السعري المتوقع</label>
+                        <select id="price-range">
+                            <option value="">-- اختر --</option>
+                            <option value="101k_500k" selected>(500,000 | 101,000)</option>
+                            <option value="501k_1m">(1,000,000 | 501,000)</option>
+                            <option value="gt_1m">أكثر من 1,000,000</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="competition-purpose">الغرض من المنافسة</label>
+                        <textarea id="competition-purpose" rows="3">تحسين تجربة الوصول إلى خدمات الموظفين</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tender-doc">إعادة رفع الكراسة (Word)</label>
+                        <input type="file" id="tender-doc" accept=".doc,.docx">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cost-pdf">إعادة رفع نموذج التكلفة التقديرية (PDF)</label>
+                        <input type="file" id="cost-pdf" accept=".pdf">
+                        <small class="note">📌 يجب أن يكون موقعًا يدويًا من المدير المباشر.</small>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="submit-btn">إعادة إرسال الطلب</button>
+                    </div>
+                </form>
+                <div class="history-notes">
+                    <h2>سجل الملاحظات السابقة</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>التاريخ</th>
+                                <th>الملاحظات</th>
+                                <th>من</th>
+                                <th>الدور</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>2025-05-28</td>
+                                <td>يرجى تحديث نطاق العمل بما يعكس المتطلبات التقنية الجديدة.</td>
+                                <td>م. أحمد السلمي</td>
+                                <td>مدير الإدارة الطالبة</td>
+                            </tr>
+                            <tr>
+                                <td>2025-05-26</td>
+                                <td>نموذج التكلفة غير مرفق، يرجى إرفاق النسخة الموقعة.</td>
+                                <td>محمد الوابل</td>
+                                <td>مسؤول نموذج التكلفة</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </section>
+        </main>
+    </div>
+
+    <script>
+        const planSelect = document.getElementById('included-in-plan');
+        const planReasonGroup = document.getElementById('plan-reason-group');
+        const planReason = document.getElementById('plan-reason');
+
+        planSelect.addEventListener('change', function () {
+            if (this.value === 'no') {
+                planReasonGroup.style.display = 'block';
+                planReason.setAttribute('required', 'required');
+            } else {
+                planReasonGroup.style.display = 'none';
+                planReason.removeAttribute('required');
+                planReason.value = '';
+            }
+        });
+    </script>
+</body>
+
+</html>

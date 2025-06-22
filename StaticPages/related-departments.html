@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>تحديد الإدارات ذات العلاقة</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .action-btn {
+      margin-left: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="master-container">
+    <aside class="sidebar">
+      <div class="logo-container">
+        <img src="images/logo.png" class="logo regular-theme" alt="الشعار">
+        <img src="images/logo-dark.png" class="logo dark-theme" style="display:none;" alt="الشعار الداكن">
+      </div>
+      <nav>
+        <ul>
+          <li><a href="index.html">الرئيسية</a></li>
+          <li class="active"><a href="#">تحديد الإدارات</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main class="dashboard">
+      <header>
+        <h1>تحديد الإدارات ذات العلاقة</h1>
+        <p>يرجى اختيار الإدارات التي تحتاج إلى مراجعة الطلب وترتيبها حسب التسلسل.</p>
+      </header>
+
+      <form id="departments-form">
+        <div class="form-group">
+          <label for="department-select">اختر الإدارة</label>
+          <select id="department-select">
+            <option value="">-- اختر --</option>
+            <option value="تقنية المعلومات">تقنية المعلومات</option>
+            <option value="الإدارة المالية">الإدارة المالية</option>
+            <option value="الأمن السيبراني">الأمن السيبراني</option>
+            <option value="المحتوى المحلي">المحتوى المحلي</option>
+            <option value="إدارة العقود">إدارة العقود</option>
+            <option value="الاستشارات القانونية">الاستشارات القانونية</option>
+          </select>
+          <button type="button" onclick="addDepartment()">إضافة</button>
+        </div>
+
+        <table id="departments-table">
+          <thead>
+            <tr>
+              <th>الترتيب</th>
+              <th>الإدارة</th>
+              <th>الإجراءات</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+
+        <div style="margin-top: 30px;">
+          <button type="submit" class="submit-btn">حفظ ومتابعة</button>
+        </div>
+      </form>
+    </main>
+  </div>
+
+  <script>
+    let departments = [];
+
+    function addDepartment() {
+      const select = document.getElementById('department-select');
+      const value = select.value;
+      if (!value) return alert('يرجى اختيار إدارة');
+
+      if (departments.includes(value)) return alert('تم إضافة هذه الإدارة مسبقًا');
+
+      departments.push(value);
+      renderTable();
+    }
+
+    function removeDepartment(index) {
+      departments.splice(index, 1);
+      renderTable();
+    }
+
+    function moveUp(index) {
+      if (index === 0) return;
+      [departments[index], departments[index - 1]] = [departments[index - 1], departments[index]];
+      renderTable();
+    }
+
+    function moveDown(index) {
+      if (index === departments.length - 1) return;
+      [departments[index], departments[index + 1]] = [departments[index + 1], departments[index]];
+      renderTable();
+    }
+
+    function renderTable() {
+      const tbody = document.querySelector('#departments-table tbody');
+      tbody.innerHTML = '';
+      departments.forEach((dept, index) => {
+        tbody.innerHTML += `
+          <tr>
+            <td>${index + 1}</td>
+            <td>${dept}</td>
+            <td>
+              <button type="button" class="action-btn" onclick="moveUp(${index})">↑</button>
+              <button type="button" class="action-btn" onclick="moveDown(${index})">↓</button>
+              <button type="button" class="action-btn" onclick="removeDepartment(${index})">حذف</button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    document.getElementById('departments-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      if (departments.length === 0) {
+        alert('يرجى إضافة إدارات على الأقل');
+        return;
+      }
+      alert('تم الحفظ، سيتم إرسال الطلب إلى أول إدارة في الترتيب');
+      // هنا يتم إرسال البيانات للسيرفر عند الربط الفعلي
+    });
+  </script>
+</body>
+</html>

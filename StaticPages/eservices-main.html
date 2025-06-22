@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>بوابة كفاءة - الأنظمة والخدمات الإلكترونية</title>
+    <meta name="viewport" content="width=1280, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --main-green: #2e8667;
+            --sidebar-bg: #fcfcfc;
+            --main-bg: #f7f9fb;
+            --card-bg: #fff;
+            --box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            --border-radius: 12px;
+            --accent-red: #ef5350;
+            --accent-green: #43a047;
+            --accent-orange: #ffa726;
+            --transition: .2s;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', 'Tahoma', Arial, sans-serif;
+            background: var(--main-bg);
+            direction: rtl;
+        }
+        .header {
+            background: var(--main-green);
+            color: #fff;
+            padding: 0;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .header .icon-btn {
+            color: #fff;
+            background: none;
+            border: none;
+            font-size: 1.4rem;
+            margin: 0 18px;
+            cursor: pointer;
+        }
+        .header .logo-area {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+        }
+        .header .logo-area img {
+            height: 28px;
+            margin-left: 8px;
+        }
+        .header .profile-btn {
+            margin-right: 18px;
+            border: none;
+            background: none;
+            color: #fff;
+            font-size: 1.4rem;
+            cursor: pointer;
+        }
+        .container {
+            display: flex;
+        }
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: var(--sidebar-bg);
+            box-shadow: 1px 0 0 #ececec;
+            min-height: calc(100vh - 56px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 32px;
+        }
+        .sidebar .profile-pic {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #e0e0e0;
+            margin-bottom: 8px;
+        }
+        .sidebar .profile-info {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .sidebar .profile-info .name {
+            font-weight: bold;
+            margin-bottom: 4px;
+            color: #2e8667;
+            font-size: 1rem;
+        }
+        .sidebar .menu {
+            width: 100%;
+            margin-top: 32px;
+        }
+        .sidebar .menu a {
+            display: block;
+            padding: 16px 24px;
+            color: #333;
+            text-decoration: none;
+            font-size: 1.08rem;
+            border-right: 3px solid transparent;
+            transition: var(--transition);
+        }
+        .sidebar .menu a.active,
+        .sidebar .menu a:hover {
+            color: var(--main-green);
+            background: #eefaf5;
+            border-right: 3px solid var(--main-green);
+        }
+        /* Main area */
+        .main-content {
+            flex: 1;
+            padding: 32px 32px 32px 16px;
+        }
+        .dashboard-cards {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+        .dashboard-card {
+            flex: 1;
+            background: var(--card-bg);
+            box-shadow: var(--box-shadow);
+            border-radius: var(--border-radius);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 18px 0 10px 0;
+            min-width: 170px;
+            min-height: 66px;
+            position: relative;
+        }
+        .dashboard-card.red {
+            border-top: 6px solid var(--accent-red);
+        }
+        .dashboard-card.green {
+            border-top: 6px solid var(--accent-green);
+        }
+        .dashboard-card.orange {
+            border-top: 6px solid var(--accent-orange);
+        }
+        .dashboard-card .icon {
+            font-size: 2.1rem;
+            margin-bottom: 4px;
+        }
+        .dashboard-card.red .icon {
+            color: var(--accent-red);
+        }
+        .dashboard-card.green .icon {
+            color: var(--accent-green);
+        }
+        .dashboard-card.orange .icon {
+            color: var(--accent-orange);
+        }
+        .dashboard-card .value {
+            font-weight: bold;
+            font-size: 1.25rem;
+            margin-bottom: 4px;
+        }
+        .dashboard-card .label {
+            color: #888;
+            font-size: 0.98rem;
+        }
+        /* Section title */
+        .main-section {
+            background: var(--card-bg);
+            box-shadow: var(--box-shadow);
+            border-radius: var(--border-radius);
+            padding: 18px 24px 32px 24px;
+        }
+        .main-section .section-title {
+            font-weight: 600;
+            font-size: 1.08rem;
+            color: #434343;
+            display: flex;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+        .main-section .section-title i {
+            font-size: 1rem;
+            margin-right: 8px;
+            color: #888;
+            cursor: pointer;
+        }
+        /* Cards grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+        .service-card {
+            background: #f6faf8;
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 10px rgba(60, 80, 60, 0.03);
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: box-shadow .18s, background .18s;
+            position: relative;
+            font-size: 1.04rem;
+            color: #195c40;
+        }
+        .service-card.inactive {
+            background: #eaf3e5;
+            color: #b7b7b7;
+            cursor: default;
+        }
+        .service-card .icon {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            color: #238957;
+        }
+        .service-card.inactive .icon {
+            color: #b7b7b7;
+        }
+        .service-card:hover:not(.inactive) {
+            box-shadow: 0 8px 28px rgba(60, 80, 60, 0.12);
+            background: #e8f8ee;
+        }
+        /* Responsive */
+        @media (max-width: 1100px) {
+            .cards-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .sidebar { width: 190px; }
+        }
+        @media (max-width: 800px) {
+            .container {
+                flex-direction: column-reverse;
+            }
+            .sidebar {
+                width: 100vw;
+                flex-direction: row;
+                height: 72px;
+                min-height: unset;
+                padding: 0;
+                box-shadow: none;
+            }
+            .sidebar .profile-pic, .sidebar .profile-info, .sidebar .menu {
+                display: none;
+            }
+        }
+        @media (max-width: 700px) {
+            .dashboard-cards {
+                flex-direction: column;
+                gap: 14px;
+            }
+            .main-section {
+                padding: 12px 6px 16px 6px;
+            }
+            .main-content {
+                padding: 8px;
+            }
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Bar -->
+    <div class="header">
+        <button class="icon-btn" title="تبديل القائمة">
+            <i class="fas fa-bars"></i>
+        </button>
+        <button class="icon-btn" title="تغيير اللغة">
+            <i class="fas fa-globe"></i>
+        </button>
+        <div class="logo-area">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/1/1a/SEEC_logo.png" alt="كفاءة" />
+            <span>كفاءة</span>
+        </div>
+        <button class="profile-btn" title="الحساب الشخصي">
+            <i class="fas fa-user"></i>
+        </button>
+    </div>
+    <div class="container">
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Dashboard Cards -->
+            <div class="dashboard-cards">
+                <div class="dashboard-card red">
+                    <div class="icon"><i class="fas fa-times-circle"></i></div>
+                    <div class="value">0</div>
+                    <div class="label">الطلبات المرفوضة</div>
+                </div>
+                <div class="dashboard-card green">
+                    <div class="icon"><i class="fas fa-check-circle"></i></div>
+                    <div class="value">10</div>
+                    <div class="label">الطلبات المكتملة</div>
+                </div>
+                <div class="dashboard-card orange">
+                    <div class="icon"><i class="fas fa-hourglass-half"></i></div>
+                    <div class="value">0</div>
+                    <div class="label">الطلبات قيد الانتظار</div>
+                </div>
+            </div>
+            <!-- Main Section -->
+            <div class="main-section">
+                <div class="section-title">
+                    الأنظمة والخدمات الإلكترونية
+                    <i class="fas fa-pen"></i>
+                </div>
+                <div class="cards-grid">
+                    <div class="service-card inactive">
+                        <span>اضغط لاختيار الخدمات</span>
+                        <i class="fas fa-arrow-left icon"></i>
+                    </div>
+                    <div class="service-card" onclick="alert('خدمات الإدارة القانونية')">
+                        <i class="fas fa-handshake icon"></i>
+                        <div>خدمات الإدارة القانونية</div>
+                    </div>
+                    <div class="service-card" onclick="alert('خدمات إدارة الموارد البشرية')">
+                        <i class="fas fa-handshake icon"></i>
+                        <div>خدمات إدارة الموارد البشرية</div>
+                    </div>
+                    <div class="service-card" onclick="alert('إدارة خطط التدريب القُدرية')">
+                        <i class="fas fa-handshake icon"></i>
+                        <div>إدارة خطط التدريب القُدرية</div>
+                    </div>
+                    <div class="service-card" onclick="alert('خدمات إدارة التوعية والعلاقات العامة')">
+                        <i class="fas fa-handshake icon"></i>
+                        <div>خدمات إدارة التوعية والعلاقات العامة</div>
+                    </div>
+                    <div class="service-card" onclick="alert('خدمات عامة')">
+                        <i class="fas fa-handshake icon"></i>
+                        <div>خدمات عامة</div>
+                    </div>
+                    <div class="service-card" onclick="alert('خدمات إدارة الاستراتيجية والتميز المؤسسي')">
+                        <i class="fas fa-handshake icon"></i>
+                        <div>خدمات إدارة الاستراتيجية والتميز المؤسسي</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="profile-info">
+                <img src="https://i.ibb.co/GFbyVXM/profile-placeholder.png" class="profile-pic" alt="الصورة الشخصية" />
+                <div class="name">مرحباً بك<br>عمر محمد العلي محي الدين الحموي</div>
+            </div>
+            <nav class="menu">
+                <a href="#" class="active">الرئيسية</a>
+                <a href="#">طلباتي</a>
+                <a href="#">مؤشرات الأداء</a>
+                <a href="#">عن النظام</a>
+            </nav>
+        </aside>
+    </div>
+</body>
+</html>
