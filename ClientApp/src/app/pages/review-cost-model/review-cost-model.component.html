@@ -1,0 +1,38 @@
+      <header>
+        <h1>مراجعة نموذج التكلفة التقديرية</h1>
+      </header>
+
+      <section class="cost-review">
+        <div class="project-summary">
+          <h2>بيانات الطلب</h2>
+          <p><strong>اسم المشروع:</strong> تطوير البوابة الداخلية</p>
+          <p><strong>مدة التنفيذ:</strong> 6 أشهر</p>
+          <p><strong>النطاق السعري المتوقع:</strong> (500,000 | 101,000)</p>
+        </div>
+
+        <div class="cost-file">
+          <h3>ملف التكلفة التقديرية</h3>
+          <p>📎 <a href="#">عرض / تحميل الملف (PDF)</a></p>
+          <p class="note">📌 يجب أن يكون الملف موقعًا يدويًا من مدير الإدارة الطالبة.</p>
+        </div>
+
+        <form class="review-form">
+          <div class="form-group">
+            <label for="cost-decision">الإجراء</label>
+            <select id="cost-decision" required>
+              <option value="">-- اختر --</option>
+              <option value="approve">اعتماد النموذج</option>
+              <option value="reject">رفض النموذج</option>
+            </select>
+          </div>
+
+          <div class="form-group" id="cost-comment-group" style="display: none;">
+            <label for="cost-comments">سبب الرفض</label>
+            <textarea id="cost-comments" rows="3" placeholder="يرجى توضيح الملاحظات التي أدت إلى الرفض..."></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="submit-btn">تأكيد الإجراء</button>
+          </div>
+        </form>
+      </section>
