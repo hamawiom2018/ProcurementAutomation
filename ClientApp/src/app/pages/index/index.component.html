@@ -31,13 +31,18 @@
                         </tr>
                     </thead>
                     <tbody id="requests-body">
-                        <!-- سيتم تعبئة البيانات عبر JavaScript -->
+                        <tr *ngFor="let req of paginatedRequests">
+                            <td>{{req.id}}</td>
+                            <td>{{req.name}}</td>
+                            <td>{{req.status}}</td>
+                            <td>{{req.date}}</td>
+                        </tr>
                     </tbody>
                 </table>
                 <div class="pagination">
-                    <button id="prev-page">السابق</button>
-                    <span id="page-info"></span>
-                    <button id="next-page">التالي</button>
+                    <button id="prev-page" (click)="prevPage()" [disabled]="currentPage === 1">السابق</button>
+                    <span id="page-info">{{pageInfo}}</span>
+                    <button id="next-page" (click)="nextPage()" [disabled]="!hasNextPage()">التالي</button>
                 </div>
             </section>
 
