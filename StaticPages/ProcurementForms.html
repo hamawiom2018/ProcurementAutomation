@@ -1,0 +1,1731 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>منظومة طرح المنافسة – الواجهات الموحدة</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <style>
+    :root {
+      --main-green: #217b59;
+      --main-green-light: #d3e6d5;
+      --gray-bg: #fff;
+      --gray-border: #ececec;
+      --heading-color: #1c2e23;
+      --text-color: #454545;
+      --status-success: #36b076;
+      --status-pending: #e4b913;
+      --status-danger: #d54f3c;
+      --main-radius: 14px;
+      --main-shadow: 0 4px 22px rgba(34,56,78,0.08);
+    }
+    body {
+      margin: 0; padding: 0;
+      font-family: 'DIN Next LT Arabic', 'Tajawal', 'Cairo', sans-serif;
+      background: var(--gray-bg);
+      color: var(--heading-color);
+      direction: rtl;
+      font-size: 17px;
+      line-height: 1.7;
+    }
+    .notification {
+      position: fixed; top:20px; left:50%;
+      transform: translateX(-50%);
+      background: #fff;
+      border:1.5px solid var(--main-green);
+      padding:14px 28px; border-radius:var(--main-radius);
+      box-shadow:0 6px 20px rgba(33,123,89,.15);
+      display:none; font-weight:600; z-index:999;
+      transition: opacity 0.3s;
+      font-size: 1.07em;
+    }
+    .role-switcher {
+      display:flex; justify-content:center; gap:18px; margin:30px 0 15px;
+      flex-wrap: wrap;
+    }
+    .role-btn {
+      padding:10px 24px; font-size:1.08em;
+      border:1.5px solid var(--main-green-light);
+      border-radius:var(--main-radius);
+      background:#fff; cursor:pointer;
+      transition: all .18s;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+      font-weight: 500;
+      outline: none;
+    }
+    .role-btn.active, .role-btn:focus, .role-btn:hover {
+      background: linear-gradient(90deg, var(--main-green) 85%, #22743d 100%);
+      color: #fff;
+      border-color: var(--main-green);
+      box-shadow: 0 3px 18px rgba(33,123,89,.10);
+    }
+    .steps-bar-wrapper {
+      max-width:940px; margin:0 auto 30px; padding:0 8px;
+    }
+    .steps-bar {
+      position:relative; display:flex;
+      justify-content:space-between; margin-bottom:24px;
+    }
+    .steps-bar::before {
+      content:""; position:absolute;
+      top:24px; left:52px; right:52px;
+      height:6px; background:linear-gradient(90deg,#d8ead3 65%,#c1e5c7);
+      border-radius:var(--main-radius);
+      z-index:1;
+    }
+    .steps-bar-fill {
+      position:absolute; top:24px; right:52px;
+      height:6px; background:linear-gradient(90deg, var(--main-green) 60%, var(--main-green-light));
+      border-radius:var(--main-radius); z-index:2; transition:width .4s;
+    }
+    .step-node {
+      z-index:3; flex:1;
+      display:flex; flex-direction:column;
+      align-items:center;
+    }
+    .step-icon {
+      width:44px; height:44px;
+      border:3px solid var(--main-green-light);
+      border-radius:50%;
+      background:#fff; display:flex;
+      align-items:center; justify-content:center;
+      color: var(--main-green);
+      font-size:1.8em;
+      margin-bottom:8px;
+      box-shadow:0 2px 10px rgba(33,123,89,.05);
+      transition:.22s;
+    }
+    .step-node.done .step-icon,
+    .step-node.active .step-icon {
+      background:linear-gradient(120deg,var(--main-green) 87%,#21894d 100%);
+      color:#fff; border-color:var(--main-green);
+      transform: scale(1.09);
+    }
+    .step-label {
+      font-size:1.04em; font-weight:600;
+      text-align:center; line-height:1.35em;
+      color: #5d786a;
+      letter-spacing: 0.2px;
+    }
+    .step-node.active .step-label { color:var(--main-green); }
+    .container {
+      max-width:940px; margin:0 auto 40px;
+      background:#fff;
+      border:1.5px solid var(--gray-border);
+      border-radius:var(--main-radius);
+      padding:32px 25px 32px 25px;
+      box-shadow:var(--main-shadow);
+      transition: box-shadow .25s;
+    }
+    h1 {
+      font-size:2.1rem; text-align:center;
+      color:var(--main-green); margin-bottom:28px;
+      display:flex; align-items:center;
+      justify-content:center; gap:10px;
+      letter-spacing: 0.1px;
+      font-weight: 700;
+    }
+    .details-box, .attachments-box, .action-final-box {
+      background:#fcfdfc;
+      border:1.2px solid var(--gray-border);
+      border-radius:14px;
+      padding:20px 18px 18px;
+      margin-bottom:26px;
+      box-shadow:0 1px 6px rgba(0,0,0,0.04);
+    }
+    .details-box p {
+      margin:11px 0; font-size:1em;
+      color:var(--text-color); display:flex;
+      align-items:center; gap:9px;
+    }
+    .details-box i { color:var(--main-green); }
+    label {
+      display:block; font-size:1em; font-weight:600; margin:13px 0 6px;
+      color: #24543b;
+    }
+    input, select, textarea {
+      width:100%; padding:12px; font-size:1em;
+      border:1.3px solid var(--main-green-light);
+      border-radius:10px;
+      background: #f6faf5;
+      margin-bottom: 2px;
+      transition: border-color .16s, box-shadow .16s;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--main-green);
+      outline: none;
+      box-shadow: 0 0 0 2px #e4f5eb;
+      background: #fff;
+    }
+    textarea { min-height:64px; resize:vertical; }
+    .attachments-box strong {
+      display:flex; align-items:center; gap:8px;
+      font-size:1.08em; margin-bottom:13px;
+      color: var(--main-green);
+    }
+    .attachments-box a {
+      display:flex; gap:8px; font-size:1em;
+      color:var(--main-green); text-decoration:none;
+      margin-bottom:10px; transition:.18s;
+      padding: 5px 0;
+    }
+    .attachments-box a:hover { text-decoration:underline; background: #f4fbf4; }
+    .attachments-box p {
+      font-size: .97em; color: #9d9c9c;
+      margin-top: 7px;
+    }
+    /* جداول النظام بالكامل */
+    table.approval-table,
+    table.departments-table,
+    table.departments-order-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 1.08em;
+      border-radius: 13px;
+      overflow: hidden;
+      background: #fff;
+      margin-bottom: 22px;
+      box-shadow: 0 1px 6px rgba(33,123,89,0.06);
+    }
+    table.approval-table th,
+    table.departments-table th,
+    table.departments-order-table th {
+      background: #f0f1f4;
+      color: #4d4d4d;
+      font-weight: bold;
+      font-size: 1.05em;
+      padding: 13px 6px 11px 6px;
+      border: 1px solid #ececec;
+      text-align: center;
+    }
+    table.approval-table td,
+    table.departments-table td,
+    table.departments-order-table td {
+      background: #fff;
+      color: #212b2c;
+      padding: 13px 6px 11px 6px;
+      border: 1px solid #ececec;
+      font-weight: 500;
+      font-size: 1em;
+      text-align: center;
+    }
+    table.approval-table tbody tr:nth-child(even),
+    table.departments-table tbody tr:nth-child(even),
+    table.departments-order-table tbody tr:nth-child(even) {
+      background: #f7fafd;
+    }
+    table.approval-table td,
+    table.approval-table th,
+    table.departments-table td,
+    table.departments-table th,
+    table.departments-order-table td,
+    table.departments-order-table th {
+      vertical-align: middle;
+    }
+    .status-success {
+      color: var(--status-success) !important;
+      font-weight: bold;
+    }
+    .status-pending {
+      color: var(--status-pending) !important;
+      font-weight: bold;
+    }
+    .status-danger {
+      color: var(--status-danger) !important;
+      font-weight: bold;
+    }
+    .status-icon {
+      font-size: 1.22em;
+      margin-left: 2px;
+      vertical-align: middle;
+    }
+    @media (max-width: 700px) {
+      table.approval-table,
+      table.departments-table,
+      table.departments-order-table {
+        font-size: 0.97em;
+      }
+      table.approval-table th, table.approval-table td,
+      table.departments-table th, table.departments-table td,
+      table.departments-order-table th, table.departments-order-table td {
+        padding: 7px 2px 7px 2px;
+      }
+    }
+    .action-final-box .final-title {
+      font-size:1.08em; display:flex;
+      align-items:center; gap:8px;
+      color:var(--main-green); margin-bottom:15px;
+      font-weight: 700;
+    }
+    .action-final-row {
+      display:flex; gap:14px; flex-wrap:wrap; margin-bottom:13px;
+      margin-right: 2px;
+    }
+    .action-final-row label {
+      display:flex; align-items:center; gap:8px;
+      padding:9px 17px;
+      border:1.1px solid var(--main-green-light);
+      border-radius:13px; cursor:pointer;
+      background: #f8faf8;
+      font-size: .98em;
+      transition: .16s;
+    }
+    .action-final-row input[type="radio"] { accent-color:var(--main-green); margin-left:8px; }
+    .action-final-row label:hover, .action-final-row input:focus + label {
+      border-color: var(--main-green);
+      background: #eaf9ed;
+    }
+    .btns {
+      display:flex; justify-content:flex-end; gap:13px;
+      margin-top: 14px;
+    }
+    .btns button {
+      padding:12px 28px; font-size:1em;
+      border:none; border-radius:10px;
+      color:#fff; background:var(--main-green);
+      cursor:pointer; transition:.19s;
+      font-weight: 600;
+      letter-spacing: 0.1px;
+      box-shadow: 0 2px 12px rgba(33,123,89,.05);
+    }
+    .btns button[name="submit"] { background:var(--main-green-light); color: #204f3d; }
+    .btns button:hover, .btns button:focus { filter:brightness(0.97); transform: translateY(-2px) scale(1.02);}
+    /* Departments table extra */
+    table.departments-table button {
+      background:none; border:none; cursor:pointer; font-size:1.14em; margin:0 4px;
+      color: #888;
+      transition: color .18s;
+    }
+    table.departments-table button:hover i { color:var(--main-green); }
+    table.departments-table button[title="حذف"] i { color:#c0392b; }
+    table.departments-table button[title="حذف"]:hover i { color:#d54f3c; }
+    /* ===== custom radio row ===== */
+    .custom-radio-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 28px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+      position: relative;
+    }
+    .custom-radio-row .radio-hint {
+      font-size: 0.97em;
+      color: #3e684f;
+      font-weight: 500;
+      margin-left: 18px;
+      align-self: center;
+      background: #f3f9f2;
+      padding: 7px 18px;
+      border-radius: 12px;
+      border: 1px solid #e7eee8;
+      box-shadow: 0 2px 8px rgba(33,123,89,0.03);
+      margin-bottom: 0;
+    }
+    .custom-radio-row input[type="radio"] {
+      display: none;
+    }
+    .custom-radio-row label {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 18px;
+      font-size: 1em;
+      border: 1.5px solid var(--main-green-light);
+      border-radius: 10px;
+      background: #f8faf8;
+      cursor: pointer;
+      font-weight: 700;
+      color: var(--main-green);
+      transition: .15s;
+      position: relative;
+      min-width: 80px;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(33,123,89,0.04);
+    }
+    .custom-radio-row input[type="radio"]:checked + label {
+      background: linear-gradient(90deg, var(--main-green) 80%, var(--main-green-light) 100%);
+      color: #fff;
+      border-color: var(--main-green);
+      box-shadow: 0 5px 16px rgba(33,123,89,0.08);
+    }
+    .custom-radio-row label:hover,
+    .custom-radio-row input[type="radio"]:focus + label {
+      border-color: var(--main-green);
+      background: #eaf9ed;
+      color: var(--main-green);
+    }
+    .custom-radio-row label i {
+      font-size: 1.3em;
+    }
+    @media (max-width: 700px) {
+      .custom-radio-row {
+        flex-direction: column;
+        gap: 10px;
+      }
+      .custom-radio-row .radio-hint {
+        margin-bottom: 5px;
+        margin-left: 0;
+      }
+      .custom-radio-row label {
+        min-width: unset;
+        width: 100%;
+        justify-content: flex-start;
+      }
+    }
+    /* Responsive */
+    @media (max-width: 600px) {
+      .container, .steps-bar-wrapper { max-width:99vw; padding: 7px; }
+      .steps-bar::before, .steps-bar-fill { left:10px; right:10px; }
+      .step-icon { width:37px; height:37px; font-size:1.2em;}
+      .role-switcher { flex-wrap: wrap; gap:9px;}
+      h1 { font-size:1.1rem;}
+      th, td { font-size:0.92em;}
+      .details-box, .attachments-box, .action-final-box { padding:12px 8px 9px;}
+      .btns button { padding:10px 10px; font-size: 0.97em;}
+    }
+    .modal-bg {
+      display: none;
+      position: fixed;
+      z-index: 99999;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background: rgba(51, 51, 51, 0.18);
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-bg.active {
+      display: flex;
+    }
+    .modal {
+      background: #fff;
+      border-radius: 13px;
+      box-shadow: 0 4px 24px rgba(34,70,53,0.11);
+      max-width: 360px;
+      width: 95vw;
+      padding: 34px 23px 23px 23px;
+      text-align: center;
+      border: 2px solid #e2ebdd;
+      position: relative;
+    }
+    .attachments-list a {
+      display: inline-block;
+      margin-bottom: 7px;
+      color: #217b59;
+      background: #f2f3f5;
+      padding: 8px 21px 8px 17px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 15.5px;
+      transition: background 0.14s, color 0.15s;
+      margin-left: 7px;
+      border: 1px solid #e2e2e2;
+      box-shadow: 0 1px 4px -2px #d1d4d6;
+    }
+    .attachments-list a i {
+      margin-left: 4px;
+      font-size: 1.13em;
+      color: #858c93;
+    }
+    .attachments-list a:hover {
+      background: #e6e8eb;
+      color: #14553b;
+      border-color: #bfc6cc;
+    }
+    .last-updated-info {
+      display: block;
+      color: #555;
+      font-size: 0.99em;
+      margin-top: 8px;
+      margin-bottom: 0;
+      font-weight: 500;
+    }
+    .alert-instructions {
+      background: #f2fbf6;
+      color: #296847;
+      border: 1.2px solid #e3efe5;
+      border-radius: 11px;
+      padding: 13px 14px;
+      margin-bottom: 18px;
+      font-size: 1.06em;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .alert-instructions i {
+      color: #168e62;
+      font-size: 1.23em;
+      margin-top: 2px;
+    }
+    .next-step-hint {
+      background: #f5faf9;
+      color: #1d7e59;
+      border: 1px solid #d8ece5;
+      padding: 9px 14px;
+      border-radius: 11px;
+      margin: 18px 0 0 0;
+      font-size: 1.01em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+  </style>
+</head>
+<body>
+
+    <div class="notification" id="notification"></div>
+  <div class="role-switcher">
+    <button class="role-btn active" onclick="showRole(0)">مقدم الطلب</button>
+    <button class="role-btn" onclick="showRole(1)">مدير الإدارة</button>
+    <button class="role-btn" onclick="showRole(2)">خبير المشتريات</button>
+    <button class="role-btn" onclick="showRole(3)">الإدارة المالية</button>
+    <button class="role-btn" onclick="showRole(4)">مدير إدارة المشتريات</button>
+    <button class="role-btn" onclick="showRole(5)">موظف المشتريات</button>
+    <button class="role-btn" onclick="showRole(6)">مراجعة الإدارات</button>
+    <button class="role-btn" onclick="showRole(7)">موظف المشتريات بعد تضمين الملاحظات</button>
+    <button class="role-btn" onclick="showRole(8)">مدير المشروع (الإدارة الطالبة)</button>
+    <button class="role-btn" onclick="showRole(9)">مراجعة موظف المشتريات النهائية</button>
+    <button class="role-btn" onclick="showRole(10)">مدير الإدارة العامة للخدمات المشتركة</button>
+    <button class="role-btn" onclick="showRole(11)">مدير عام المركز</button>
+  </div>
+
+
+  <!-- =========== steps bar  =========== -->
+
+  <div class="steps-bar-wrapper">
+    <div class="steps-bar" id="stepsBar">
+      <div class="steps-bar-fill" id="stepsBarFill"></div>
+      <div class="step-node"><div class="step-icon"><i class="bi bi-file-earmark-text"></i></div><div class="step-label">مقدم الطلب</div></div>
+      <div class="step-node"><div class="step-icon"><i class="bi bi-person-check"></i></div><div class="step-label">مدير الإدارة</div></div>
+      <div class="step-node"><div class="step-icon"><i class="bi bi-person-badge"></i></div><div class="step-label">خبير المشتريات</div></div>
+      <div class="step-node"><div class="step-icon"><i class="bi bi-cash-coin"></i></div><div class="step-label">الإدارة المالية</div></div>
+      <div class="step-node"><div class="step-icon"><i class="bi bi-person-badge-fill"></i></div><div class="step-label">مدير إدارة المشتريات</div></div>
+      <div class="step-node"><div class="step-icon"><i class="bi bi-person-vcard"></i></div><div class="step-label">موظف المشتريات</div></div>
+      <div class="step-node"><div class="step-icon"><i class="bi bi-diagram-3"></i></div><div class="step-label">مراجعة الإدارات</div></div>
+      <div class="step-node"><div class="step-icon"><i class="bi bi-person-vcard"></i></div><div class="step-label">موظف المشتريات بعد تضمين الملاحظات</div></div>
+      <div class="step-node"><div class="step-icon"><i class="bi bi-person-check"></i></div><div class="step-label">مدير المشروع (الإدارة الطالبة)</div></div>
+      <div class="step-node"><div class="step-icon"><i class="bi bi-clipboard-check"></i></div><div class="step-label">مراجعة موظف المشتريات النهائية</div></div>
+      <div class="step-node"><div class="step-icon"><i class="bi bi-person-gear"></i></div><div class="step-label">مدير الإدارة العامة للخدمات المشتركة</div></div>
+      <div class="step-node"><div class="step-icon"><i class="bi bi-person-workspace"></i></div><div class="step-label">مدير عام المركز</div></div>
+    </div>
+  </div>
+  <!-- =========== role0 (مقدم الطلب) =========== -->
+<div id="role0" class="container">
+  <h1><i class="bi bi-file-earmark-text"></i> طلب طرح منافسة</h1>
+  <div class="details-box">
+    <label>مدير المشروع</label><input type="text">
+    <label>الإدارة</label><input type="text">
+    <label>التاريخ</label><input type="date">
+    <label>اسم المنافسة</label><input type="text">
+    <label>الغرض من المنافسة</label><textarea></textarea>
+    <label>هل ضمن الخطة؟</label>
+    <select id="plan0"><option></option><option value="yes">نعم</option><option value="no">لا</option></select>
+    <div id="reason0" style="display:none;"><label>السبب:</label><textarea></textarea></div>
+    <label>مدة التنفيذ</label><input type="text" placeholder="مثال: 6 أشهر">
+    <label>النطاق السعري</label>
+    <select>
+      <option></option>
+      <option>إلى 100,000</option>
+      <option>101,000‑500,000</option>
+      <option>&gt;500,000</option>
+    </select>
+  </div>
+  <div class="attachments-box">
+    <strong><i class="bi bi-paperclip"></i> المرفقات</strong>
+    <label><i class="bi bi-file-earmark-text"></i> نطاق العمل</label><input type="file">
+    <label><i class="bi bi-file-earmark-pdf"></i> نموذج التكلفة (PDF)</label><input type="file" accept="application/pdf">
+    <p><i class="bi bi-info-circle"></i> يجب أن يكون النموذج موقعًا إلكترونيًا من المدير المباشر</p>
+  </div>
+  <div class="btns">
+    <button name="submit" onclick="showNotification('تم الإرسال')">
+      إرسال
+    </button>
+  </div>
+</div>
+
+<style>
+  /* فقط تعديل الحقول والحقول النشطة بلون رمادي */
+  .details-box input,
+  .details-box select,
+  .details-box textarea,
+  .attachments-box input[type="file"] {
+    width: 100%;
+    padding: 12px;
+    font-size: 1em;
+    border: 1.3px solid #dadada;
+    border-radius: 10px;
+    background: #f4f4f6;
+    margin-bottom: 2px;
+    transition: border-color .16s, box-shadow .16s;
+    color: #444;
+  }
+  .details-box input:focus,
+  .details-box select:focus,
+  .details-box textarea:focus {
+    border-color: #b0b0b6;
+    background: #fafafd;
+    outline: none;
+    box-shadow: 0 0 0 2px #ececec;
+  }
+  .details-box label {
+    color: #252525;
+    font-weight: 600;
+    margin: 13px 0 6px;
+    font-size: 1em;
+    display: block;
+  }
+  .attachments-box label {
+    color: #353535;
+    font-size: 1em;
+    font-weight: 500;
+    margin: 10px 0 4px;
+    display: block;
+  }
+  .btns {
+    display: flex; 
+    justify-content: flex-end;
+    gap: 13px;
+    margin-top: 18px;
+  }
+  .btns button {
+    padding: 13px 32px;
+    border-radius: 10px;
+    font-weight: 700;
+    border: none;
+background: var(--main-green);
+    color: #fff;
+    font-size: 1.08em;
+    cursor: pointer;
+    transition: background .18s, transform .14s;
+  }
+  .btns button:hover, .btns button:focus {
+    background: #76767d;
+    transform: translateY(-2px) scale(1.02);
+  }
+  
+  document.getElementById('helpers-select').addEventListener('change', function(){
+  let vals = Array.from(this.selectedOptions).map(opt => opt.text);
+  document.getElementById('helper-selected').innerHTML =
+    vals.length
+      ? 'الموظفون المختارون: <span style="color:#217b59;font-weight:600">' + vals.join(', ') + '</span>'
+      : '';
+});
+
+</style>
+
+<script>
+  // إظهار حقل السبب إذا كانت خارج الخطة
+  document.getElementById('plan0').addEventListener('change', function(e){
+    document.getElementById('reason0').style.display = this.value === 'no' ? 'block' : 'none';
+  });
+</script>
+
+
+  <!-- =========== role1 (مدير الإدارة) =========== -->
+  
+  <div id="role1" class="container" style="display:none">
+    
+    <h1><i class="bi bi-person-badge"></i> اعتماد مدير الإدارة</h1>
+    <div class="details-box">
+      <p><i class="bi bi-person"></i><strong>مدير المشروع:</strong> أحمد السلمي</p>
+      <p><i class="bi bi-building"></i><strong>الإدارة:</strong> تقنية المعلومات</p>
+      <p><i class="bi bi-calendar"></i><strong>التاريخ:</strong> 2025‑06‑13</p>
+      <p><i class="bi bi-signpost"></i><strong>اسم المنافسة:</strong> تطوير البوابة الداخلية</p>
+      <p><i class="bi bi-bullseye"></i><strong>الغرض:</strong> تحسين تجربة الخدمات</p>
+      <p><i class="bi bi-clock"></i><strong>مدة التنفيذ:</strong> 6 أشهر</p>
+      <p><i class="bi bi-cash-coin"></i><strong>النطاق السعري:</strong> 101,000‑500,000</p>
+    </div>
+    <div class="attachments-box">
+      <strong><i class="bi bi-paperclip"></i> المرفقات</strong>
+      <a href="#"><i class="bi bi-file-earmark-text"></i> نطاق العمل</a>
+      <a href="#"><i class="bi bi-file-earmark-pdf"></i> التكلفة (موقعة)</a>
+    </div>
+    
+   
+
+<script>
+  function toggleHelperList(show){
+    document.getElementById('helper-list-section').style.display = show ? 'block' : 'none';
+  }
+</script>
+
+    
+    <h3 class="action-final-box final-title"><i class="bi bi-clipboard-check-fill"></i> سجل الاعتمادات</h3>
+    <table class="approval-table">
+      <thead><tr><th>الإدارة</th><th>الحالة</th><th>المراجع</th><th>وقت البدء</th><th>وقت الإرسال</th></tr></thead>
+      <tbody>
+        <tr><td>تقنية المعلومات</td><td class="status-success"><i class="bi bi-check-circle-fill status-icon"></i> تمّ الإرسال</td><td>أحمد السلمي</td><td>2025‑06‑13 09:00</td><td>2025‑06‑13 10:01</td></tr>
+        <tr><td>تقنية المعلومات</td><td class="status-pending"><i class="bi bi-clock-history status-icon"></i> قيد المراجعة</td><td>محمد الغامدي</td><td>2025‑06‑13 10:01</td><td>–</td></tr>
+      </tbody>
+    </table>
+<div class="btns">
+
+  <button class="main-btn submit-btn" type="button"><i class="bi bi-check-circle"></i> اعتماد</button>
+  <button class="main-btn return-btn" type="button"><i class="bi bi-arrow-repeat"></i> إعادة الطلب</button>
+  <button class="main-btn delete-btn" type="button"><i class="bi bi-x-circle"></i> رفض</button>
+</div>
+
+  </div>
+
+  <!-- =========== role2 (خبير المشتريات) =========== -->
+  <div id="role2" class="container" style="display:none">
+    <h1><i class="bi bi-person-vcard"></i> مراجعة خبير المشتريات</h1>
+    <div class="details-box">
+      <p><i class="bi bi-person"></i><strong>مدير المشروع:</strong> أحمد السلمي</p>
+      <p><i class="bi bi-building"></i><strong>الإدارة:</strong> تقنية المعلومات</p>
+      <p><i class="bi bi-calendar"></i><strong>التاريخ:</strong> 2025‑06‑13</p>
+      <p><i class="bi bi-signpost"></i><strong>اسم المنافسة:</strong> تطوير البوابة الداخلية</p>
+      <p><i class="bi bi-bullseye"></i><strong>الغرض:</strong> تحسين تجربة الخدمات</p>
+      <p><i class="bi bi-clock"></i><strong>مدة التنفيذ:</strong> 6 أشهر</p>
+      <p><i class="bi bi-cash-coin"></i><strong>النطاق السعري:</strong> 101,000‑500,000</p>
+    </div>
+    <div class="attachments-box">
+      <strong><i class="bi bi-paperclip"></i> المرفقات</strong>
+      <a href="#"><i class="bi bi-file-earmark-text"></i> نطاق العمل</a>
+      <a href="#"><i class="bi bi-file-earmark-pdf"></i> نموذج التكلفة (PDF)</a>
+    </div>
+    <h3 class="final-title"><i class="bi bi-clipboard-check-fill"></i> سجل الاعتمادات</h3>
+    <table class="approval-table">
+      <thead><tr><th>الإدارة</th><th>الحالة</th><th>المراجع</th><th>وقت البدء</th><th>وقت الإرسال</th></tr></thead>
+      <tbody>
+        <tr><td>مدير المشروع</td><td class="status-success"><i class="bi bi-check-circle-fill status-icon"></i> تمّ الإرسال</td><td>أحمد السلمي</td><td>2025‑06‑10 08:00</td><td>2025‑06‑10 08:02</td></tr>
+        <tr><td>مدير الإدارة</td><td class="status-success"><i class="bi bi-check-circle-fill status-icon"></i> تمّ الاعتماد</td><td>محمد الغامدي</td><td>2025‑06‑11 11:00</td><td>2025‑06‑11 11:15</td></tr>
+        <tr><td>خبير المشتريات</td><td class="status-pending"><i class="bi bi-clock-history status-icon"></i> قيد المراجعة</td><td>خالد بن سعود</td><td>2025‑06‑12 09:00</td><td>–</td></tr>
+      </tbody>
+    </table>
+<div class="btns">
+
+  <button class="main-btn submit-btn" type="button"><i class="bi bi-check-circle"></i> اعتماد</button>
+  <button class="main-btn return-btn" type="button"><i class="bi bi-arrow-repeat"></i> إعادة الطلب</button>
+  <button class="main-btn delete-btn" type="button"><i class="bi bi-x-circle"></i> رفض</button>
+</div>
+
+  </div>
+    
+<!-- =========== role11 (موظف المالية) =========== -->
+<div id="role3" class="container" style="display:none">
+  <h1><i class="bi bi-cash-coin"></i> مراجعة موظف المالية</h1>
+  
+  <div class="alert-instructions">
+    <i class="bi bi-info-circle"></i>
+    يرجى مراجعة تفاصيل الطلب، تعبئة البيانات المطلوبة، ثم اعتماد الطلب أو إعادته في حال وجود ملاحظات.
+  </div>
+  
+  <div class="details-box">
+    <p><strong><i class="bi bi-signpost"></i> اسم المنافسة:</strong> تطوير البوابة الداخلية</p>
+    <p><strong><i class="bi bi-person-badge"></i> مدير المشروع:</strong> أحمد السلمي</p>
+    <p><strong><i class="bi bi-building"></i> الإدارة:</strong> تقنية المعلومات</p>
+    <p><strong><i class="bi bi-calendar-day"></i> التاريخ:</strong> 2025-06-13</p>
+    <p><strong><i class="bi bi-currency-dollar"></i> النطاق السعري:</strong> (500.000 | 101.000)</p>
+  </div>
+  
+ <!-- سجل الاعتمادات الجديد -->
+  <h3 class="final-title"><i class="bi bi-clipboard-check-fill"></i> سجل الاعتمادات</h3>
+  <table class="approval-table" style="margin-bottom:26px;">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>المرحلة</th>
+        <th>المعتمد</th>
+        <th>التاريخ</th>
+        <th>الحالة</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>مقدم الطلب</td><td>أحمد السلمي</td><td>2025-06-10</td><td class="status-success">تم الإرسال</td></tr>
+      <tr><td>2</td><td>مدير الإدارة</td><td>م. خالد الفهيد</td><td>2025-06-11</td><td class="status-success">معتمد</td></tr>
+      <tr><td>3</td><td>خبير المشتريات</td><td>أ. نورة السالم</td><td>2025-06-12</td><td class="status-success">معتمد</td></tr>
+      <tr><td>4</td><td>الإدارات ذات العلاقة</td><td>د. سارة البقمي</td><td>2025-06-13</td><td class="status-success">معتمد</td></tr>
+      <tr><td>5</td><td>موظف المشتريات</td><td>منى الزهراني</td><td>2025-06-13</td><td class="status-success">مدقق</td></tr>
+      <tr><td>6</td><td>مدير المشروع (الإدارة الطالبة)</td><td>م. أحمد السلمي</td><td>2025-06-13</td><td class="status-success">معتمد</td></tr>
+      <tr><td>7</td><td>موظف المشتريات بعد تضمين الملاحظات</td><td>منى الزهراني</td><td>2025-06-13</td><td class="status-success">مدقق نهائي</td></tr>
+      <tr><td>8</td><td>مراجعة موظف المشتريات النهائية</td><td>منى الزهراني</td><td>2025-06-13</td><td class="status-success">مكتمل</td></tr>
+      <tr><td>9</td><td>الادارة المالية</td><td>أ. نورة السالم</td><td>2025-06-14</td><td class="status-pending">قيد المراجعة</td></tr>
+    </tbody>
+  </table>
+
+
+  <!-- النسخة الأخيرة لنطاق النظام -->
+  <div class="attachments-box">
+    <strong><i class="bi bi-paperclip"></i> النسخة النهائية لنطاق العمل</strong>
+    <div class="attachments-list">
+      <a href="#" download><i class="bi bi-download"></i> تحميل النطاق النهائي</a>
+      <a href="#" target="_blank"><i class="bi bi-eye"></i> معاينة الملف</a>
+    </div>
+  </div>
+
+<!-- مدخلات موظف المالية -->
+<div class="details-box">
+  <h3 style="margin-bottom:16px;color:#217b59;display:flex;align-items:center;gap:7px;">
+    <i class="bi bi-wallet2"></i>
+    البيانات المالية للطلب
+  </h3>
+  
+  <label style="margin-bottom:7px;"><i class="bi bi-link-45deg"></i> حالة الارتباط المالي:</label>
+  <div style="display:flex; gap:40px; margin-bottom:15px;">
+    <label style="display:flex; align-items:center; gap:6px; font-weight:600;">
+      <input type="radio" name="fin-link" id="fin-link-available" value="available" style="accent-color:#217b59;">
+      متوفر
+    </label>
+    <label style="display:flex; align-items:center; gap:6px; font-weight:600;">
+      <input type="radio" name="fin-link" id="fin-link-unavailable" value="unavailable" style="accent-color:#d54f3c;">
+      غير متوفر
+    </label>
+  </div>
+
+  <label for="budgetNo"><i class="bi bi-123"></i> رقم البند المخصص في الميزانية</label>
+  <input type="text" id="budgetNo" placeholder="أدخل رقم البند">
+
+  <label for="financeNotes"><i class="bi bi-chat-left-text"></i> ملاحظات موظف المالية (اختياري)</label>
+  <textarea id="financeNotes" name="financeNotes" placeholder="أضف ملاحظاتك هنا"></textarea>
+</div>
+
+  
+  <div class="btns">
+    <button class="main-btn save-btn" type="button" onclick="showNotification('تم الحفظ!')">
+      <i class="bi bi-save"></i> حفظ
+    </button>
+    <button class="main-btn submit-btn" type="button" onclick="showNotification('تم إرسال الطلب إلى مدير إدارة المشتريات!')">
+      <i class="bi bi-check-circle"></i> ارسال الطلب الى مدير المشتريات 
+    </button>
+    <button class="main-btn return-btn" type="button" onclick="showNotification('تمت إعادة الطلب إلى موظف المشتريات!')">
+      <i class="bi bi-arrow-repeat"></i> إعادة الطلب الى موظف المشتريات
+    </button>
+
+  </div>
+</div>
+
+
+  
+  <!-- =========== role8 (مدير إدارة المشتريات) =========== -->
+<div id="role4" class="container" style="display:none">
+  <h1><i class="bi bi-person-badge-fill"></i> مراجعة مدير إدارة المشتريات</h1>
+  <div class="details-box">
+    <p><strong><i class="bi bi-signpost"></i> اسم المنافسة:</strong> تطوير البوابة الداخلية</p>
+    <p><strong><i class="bi bi-person-badge"></i> مدير المشروع:</strong> أحمد السلمي</p>
+    <p><strong><i class="bi bi-building"></i> الإدارة:</strong> تقنية المعلومات</p>
+    <p><strong><i class="bi bi-calendar-day"></i> التاريخ:</strong> 2025-06-13</p>
+    <p><strong><i class="bi bi-bullseye"></i> الغرض من المنافسة:</strong> تحسين تجربة الوصول للخدمات الداخلية</p>
+    <p><strong><i class="bi bi-hourglass-split"></i> مدة التنفيذ:</strong> 6 أشهر</p>
+    <p><strong><i class="bi bi-currency-dollar"></i> النطاق السعري:</strong> (500.000 | 101.000)</p>
+  </div>
+
+  <!-- سجل تسليم النسخ النهائية -->
+  <h3 class="final-title"><i class="bi bi-clipboard-check"></i> سجل تسليم النسخ النهائية</h3>
+ <table class="approval-table" style="margin-bottom:26px;">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>المرحلة</th>
+      <th>المعتمد</th>
+      <th>التاريخ</th>
+      <th>الحالة</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>مقدم الطلب</td>
+      <td>أحمد السلمي</td>
+      <td>2025-06-10</td>
+      <td class="status-success">تم الإرسال</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>مدير الإدارة</td>
+      <td>م. خالد الفهيد</td>
+      <td>2025-06-11</td>
+      <td class="status-success">معتمد</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>خبير المشتريات</td>
+      <td>أ. نورة السالم</td>
+      <td>2025-06-12</td>
+      <td class="status-success">معتمد</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>الإدارات ذات العلاقة</td>
+      <td>د. سارة البقمي</td>
+      <td>2025-06-13</td>
+      <td class="status-success">معتمد</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>موظف المشتريات</td>
+      <td>منى الزهراني</td>
+      <td>2025-06-13</td>
+      <td class="status-success">مدقق</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>مدير المشروع (الإدارة الطالبة)</td>
+      <td>م. أحمد السلمي</td>
+      <td>2025-06-13</td>
+      <td class="status-success">معتمد</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>موظف المشتريات بعد تضمين الملاحظات</td>
+      <td>منى الزهراني</td>
+      <td>2025-06-13</td>
+      <td class="status-success">مدقق نهائي</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>مراجعة موظف المشتريات النهائية</td>
+      <td>منى الزهراني</td>
+      <td>2025-06-13</td>
+      <td class="status-success">مكتمل</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>الادارة المالية</td>
+      <td>أ. نورة السالم</td>
+      <td>2025-06-14</td>
+      <td class="status-success">معتمد</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>مدير إدارة المشتريات</td>
+      <td>أ. عبدالله الحربي</td>
+      <td>2025-06-14</td>
+      <td class="status-pending">قيد المراجعة</td>
+    </tr>
+  </tbody>
+</table>
+ 
+
+  <!-- ملاحظات وإجراءات -->
+  <div class="notes-before-send">
+    <label for="notes8"><i class="bi bi-chat-left-text"></i> ملاحظات مدير إدارة المشتريات (اختياري)</label>
+    <textarea id="notes8" name="notes8" placeholder="أضف أي ملاحظات قبل إرسال الطلب أو اعتماده"></textarea>
+  </div>
+
+<div class="btns">
+    <button class="main-btn save-btn" type="button"><i class="bi bi-save"></i> حفظ</button>
+  <button class="main-btn submit-btn" type="button"><i class="bi bi-send"></i> إرسال إلى مدير الإدارة العامة للخدمات المشتركة</button>
+  <button class="main-btn return-btn" type="button"><i class="bi bi-arrow-repeat"></i> إعادة الى موظف المشتريات</button>
+  <button class="main-btn return-applicant-btn" type="button"><i class="bi bi-arrow-bar-right"></i>   اعتماد نهائي </button>
+  
+</div>
+</div>
+
+  <!-- =========== role3 (موظف المشتريات) =========== -->
+  <div id="role5" class="container" style="display:none">
+    <h1><i class="bi bi-person-vcard"></i> مراجعة موظف المشتريات</h1>
+    <div class="details-box">
+      <p><i class="bi bi-clipboard-check"></i><strong>تفاصيل الطلب </strong></p>
+      <p><strong>اسم المنافسة:</strong> تطوير منصة داخلية</p>
+      <p><strong>مدير المشروع:</strong> أحمد السلمي</p>
+      <p><strong>الإدارة:</strong> تقنية المعلومات</p>
+      <p><strong>تاريخ تقديم الطلب:</strong> 2025-06-13</p>
+      <p><strong>الغرض:</strong> تحسين تجربة الاستخدام الداخلي</p>
+      <p><strong>مدة التنفيذ:</strong> 6 أشهر</p>
+      <p><strong>النطاق السعري:</strong> 101,000‑500,000</p>
+      <p><strong>مرفق نطاق العمل:</strong> <a class="download-link" href="#">تحميل</a></p>
+    </div>
+    <div class="details-box">
+      <label for="comp-type">نوع المنافسة <span style="color:#e34">*</span></label>
+      <select id="comp-type" required>
+        <option value="">-- اختر النوع --</option>
+        <option value="public">منافسة عامة</option>
+        <option value="limited">منافسة محدودة</option>
+        <option value="direct">شراء مباشر</option>
+        <option value="practice">ممارسة</option>
+      </select>
+      <label for="comp-activity">نشاط المنافسة <span style="color:#e34">*</span></label>
+      <select id="comp-activity" required>
+        <option value="">-- اختر النشاط --</option>
+        <option value="it">تقنية معلومات</option>
+        <option value="construction">إنشاءات</option>
+        <option value="supply">توريد</option>
+        <option value="consulting">استشارات</option>
+        <option value="other">أخرى</option>
+      </select>
+      <label for="local-content-cond">شروط وأحكام المحتوى المحلي <span style="color:#e34">*</span></label>
+      <select id="local-content-cond" required onchange="toggleLocalContentMethod()">
+        <option value="">-- اختر --</option>
+        <option value="applies">ينطبق</option>
+        <option value="not-applies">لا ينطبق</option>
+      </select>
+      <div id="local-content-method-div" style="display:none;">
+        <label for="local-content-method">آلية المحتوى المحلي <span style="color:#e34">*</span></label>
+        <select id="local-content-method">
+          <option value="">-- اختر الآلية --</option>
+          <option value="mandatory">آلية إلزامية</option>
+          <option value="preferential">آلية تفضيلية</option>
+          <option value="other">أخرى</option>
+        </select>
+      </div>
+    </div>
+    <div class="details-box">
+      <p><i class="bi bi-people"></i><strong>الإدارات ذات العلاقة</strong></p>
+      <div style="display:flex; gap:8px; margin-bottom:12px;">
+        <select id="department-select">
+          <option value="">-- اختر الإدارة --</option>
+          <option>الأمن السيبراني</option>
+          <option>المالية</option>
+          <option>الموارد البشرية</option>
+          <option>المشتريات</option>
+          <option>الدعم الفني</option>
+        </select>
+        <button onclick="addDepartment()">إضافة</button>
+      </div>
+      <table class="departments-table">
+        <thead><tr><th>#</th><th>الإدارة</th><th>الإجراء</th></tr></thead>
+        <tbody id="departments-body"></tbody>
+      </table>
+    </div>
+    <h3 class="final-title"><i class="bi bi-clipboard-check-fill"></i> سجل الاعتمادات</h3>
+    <table class="approval-table">
+      <thead><tr><th>الإدارة</th><th>الحالة</th><th>المراجع</th><th>وقت البدء</th><th>وقت الإرسال</th></tr></thead>
+      <tbody>
+        <tr><td>الأمن السيبراني</td><td class="status-success"><i class="bi bi-check-circle-fill status-icon"></i> تمّ الاعتماد</td><td>م. خالد الفهيد</td><td>2025‑06‑12 10:00</td><td>2025‑06‑12 10:05</td></tr>
+        <tr><td>المالية</td><td class="status-pending"><i class="bi bi-clock-history status-icon"></i> قيد الاعتماد</td><td>أحمد السلمي</td><td>2025‑06‑11 15:00</td><td>–</td></tr>
+      </tbody>
+    </table>
+<div class="btns">
+
+  <button class="main-btn submit-btn" type="button"><i class="bi bi-check-circle"></i> اعتماد</button>
+  <button class="main-btn return-btn" type="button"><i class="bi bi-arrow-repeat"></i> إعادة الطلب</button>
+  <button class="main-btn delete-btn" type="button"><i class="bi bi-x-circle"></i> رفض</button>
+</div>
+
+
+
+  </div>
+
+  <!-- =========== role4 (مراجعة الإدارات) =========== -->
+  <div id="role6" class="container" style="display:none">
+    <h1><i class="bi bi-diagram-3"></i> مراجعة الإدارات ذات العلاقة</h1>
+    <div class="alert-instructions">
+      <i class="bi bi-info-circle"></i>
+      <span>
+        يرجى تحميل الملف و إضافة ملاحظاتكم، ثم رفع النسخة المحدثة. بعد الإرسال، ينتقل الطلب تلقائيًا إلى الإدارة التالية حسب الترتيب<br>
+        <span style="color:#888; font-size:0.95em;">ملاحظة: جميع الملاحظات تحفظ بشكل متسلسل في ملف Word واحد طوال دورة المراجعة.</span>
+      </span>
+    </div>
+    <div class="details-box">
+      <p><strong><i class="bi bi-signpost"></i> اسم المنافسة:</strong> تطوير البوابة الداخلية</p>
+      <p><strong><i class="bi bi-person-badge"></i> مدير المشروع:</strong> أحمد السلمي</p>
+      <p><strong><i class="bi bi-building"></i> الإدارة:</strong> تقنية المعلومات</p>
+      <p><strong><i class="bi bi-calendar-day"></i> التاريخ:</strong> 2025-06-13</p>
+      <p><strong><i class="bi bi-bullseye"></i> الغرض من المنافسة:</strong> تحسين تجربة الوصول للخدمات الداخلية</p>
+      <p><strong><i class="bi bi-hourglass-split"></i> مدة التنفيذ:</strong> 6 أشهر</p>
+      <p><strong><i class="bi bi-currency-dollar"></i> النطاق السعري:</strong> (500.000 | 101.000)</p>
+    </div>
+    <h3 class="final-title" style="margin-bottom: 13px;">
+      <i class="bi bi-clipboard-check-fill"></i>
+      سجل مراجعة الإدارات
+    </h3>
+    <table class="approval-table" style="margin-bottom:0;">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>اسم الإدارة</th>
+          <th>الحالة</th>
+          <th>اسم المراجع</th>
+          <th>وقت البدء</th>
+          <th>وقت الإرسال</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td class="status-success">الأمن السيبراني</td>
+          <td class="status-success"><i class="bi bi-check-circle-fill status-icon"></i> تمت المراجعة</td>
+          <td class="status-success">أ. عبدالله العنزي</td>
+          <td class="status-success">2025-06-13 10:00</td>
+          <td class="status-success">2025-06-13 11:00</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td style="color:#176c4b">المالية</td>
+          <td class="status-pending"><i class="bi bi-pencil-square status-icon" style="color:#e4b913"></i> قيد المراجعة</td>
+          <td>أ. نورة السالم</td>
+          <td>2025-06-13 11:05</td>
+          <td>--</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>إدارة الموارد البشرية</td>
+          <td><i class="bi bi-hourglass status-icon"></i> بانتظار الدور</td>
+          <td>--</td>
+          <td>--</td>
+          <td>--</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="attachments-box" style="margin: 16px 0 12px 0;">
+      <strong style="margin-bottom:10px"><i class="bi bi-paperclip"></i> ملف الملاحظات</strong>
+      <div class="attachments-list">
+        <a href="#" download><i class="bi bi-download"></i> تحميل ملف الملاحظات (Word)</a>
+        <a href="#" target="_blank"><i class="bi bi-eye"></i> معاينة الملف</a>
+        <span class="last-updated-info" style="display:block; margin-top:6px;">
+          <i class="bi bi-person-circle"></i>
+          آخر تحديث بواسطة: <b style="color:#217b59;">أ. عبدالله العنزي</b> | 13/06/2025 11:00 صباحًا
+        </span>
+      </div>
+    </div>
+    <div class="next-step-hint" style="margin-bottom: 18px;"> <i class="bi bi-arrow-bar-left"></i>
+      بعد اعتمادكم، سينتقل الطلب إلى: <b>إدارة الموارد البشرية</b>
+    </div>
+    <form onsubmit="event.preventDefault(); openModal();">
+      <div class="details-box" style="margin-top:0;">
+        <label for="reviewFile"><i class="bi bi-upload"></i> رفع النسخة المحدثة بعد مراجعتكم</label>
+        <input type="file" id="reviewFile" name="reviewFile" accept=".doc,.docx">
+        <div class="file-upload-name" id="fileUploadName"></div>
+      </div>
+      <div class="details-box" style="margin-top:-20px;">
+        <label for="reviewNotes"><i class="bi bi-chat-left-text"></i> ملاحظات إضافية (اختياري)</label>
+        <textarea id="reviewNotes" name="reviewNotes" placeholder="أضف أي ملاحظات ترغب في توضيحها (لن تدمج في ملف الملاحظات)"></textarea>
+        <div class="btns" style="margin-top: 8px;">
+          <button type="button" onclick="showNotification('تم حفظ التعديلات!')">حفظ</button>
+          <button name="submit" type="submit">إرسال</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- =========== role5 (موظف المشتريات بعد الملاحظات) =========== -->
+  <div id="role7" class="container" style="display:none">
+    <h1><i class="bi bi-person-vcard"></i> مراجعة موظف المشتريات</h1>
+    <div class="alert-instructions">
+      <i class="bi bi-info-circle"></i>
+      يرجى الاطلاع على ملف الملاحظات المحدث، وإضافة أي ملاحظات نهائية عند الحاجة
+    </div>
+    <div class="details-box">
+      <p><strong><i class="bi bi-signpost"></i> اسم المنافسة:</strong> تطوير البوابة الداخلية</p>
+      <p><strong><i class="bi bi-person-badge"></i> مدير المشروع:</strong> أحمد السلمي</p>
+      <p><strong><i class="bi bi-building"></i> الإدارة:</strong> تقنية المعلومات</p>
+      <p><strong><i class="bi bi-calendar-day"></i> التاريخ:</strong> 2025-06-13</p>
+      <p><strong><i class="bi bi-bullseye"></i> الغرض من المنافسة:</strong> تحسين تجربة الوصول للخدمات الداخلية</p>
+      <p><strong><i class="bi bi-hourglass-split"></i> مدة التنفيذ:</strong> 6 أشهر</p>
+      <p><strong><i class="bi bi-currency-dollar"></i> النطاق السعري:</strong> (500.000 | 101.000)</p>
+    </div>
+    
+    
+    <h3 class="final-title" style="margin-bottom: 13px; color: #217b59; font-size: 1.17em;">
+      <i class="bi bi-clipboard-check-fill"></i>
+      سجل مراجعة الإدارات
+    </h3>
+    <table class="departments-order-table" style="margin-bottom:0;">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>اسم الإدارة</th>
+          <th>الحالة</th>
+          <th>اسم المراجع</th>
+          <th>وقت البدء</th>
+          <th>وقت الإرسال</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td class="status-success">الأمن السيبراني</td>
+          <td class="status-success"><i class="bi bi-check-circle-fill status-icon"></i> تمت المراجعة</td>
+          <td class="status-success">أ. عبدالله العنزي</td>
+          <td class="status-success">2025-06-13 10:00</td>
+          <td class="status-success">2025-06-13 11:00</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td class="status-success">المالية</td>
+          <td class="status-success"><i class="bi bi-check-circle-fill status-icon"></i> تمت المراجعة</td>
+          <td class="status-success">أ. نورة السالم</td>
+          <td class="status-success">2025-06-13 11:05</td>
+          <td class="status-success">2025-06-13 11:40</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td class="status-success">إدارة الموارد البشرية</td>
+          <td class="status-success"><i class="bi bi-check-circle-fill status-icon"></i> تمت المراجعة</td>
+          <td class="status-success">د. سارة البقمي</td>
+          <td class="status-success">2025-06-13 12:00</td>
+          <td class="status-success">2025-06-13 12:25</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="attachments-box">
+      <strong><i class="bi bi-paperclip"></i> ملف الملاحظات النهائي</strong>
+      <div class="attachments-list">
+        <a href="#" download><i class="bi bi-download"></i> تحميل ملف الملاحظات (Word)</a>
+        <a href="#" target="_blank"><i class="bi bi-eye"></i> معاينة الملف</a>
+        <span class="last-updated-info" style="display:block; margin-top:6px;">
+          <i class="bi bi-person-circle"></i>
+          آخر تحديث بواسطة: <b style="color:#217b59;">د. سارة البقمي</b> | 13/06/2025 12:25 مساءً
+        </span>
+      </div>
+    </div>
+    <form onsubmit="event.preventDefault(); openModal();">
+      <div class="upload-section">
+        <label for="finalFile"><i class="bi bi-upload"></i> رفع النسخة النهائية بعد مراجعتكم</label>
+        <input type="file" id="finalFile" name="finalFile" accept=".doc,.docx">
+        <div class="file-upload-name" id="fileUploadName5"></div>
+      </div>
+      <div class="notes-before-send">
+        <label for="reviewNotes5"><i class="bi bi-chat-left-text"></i> ملاحظات موظف المشتريات (اختياري)</label>
+        <textarea id="reviewNotes5" name="reviewNotes5" placeholder="أضف أي ملاحظات ترغب في توضيحها (لن تدمج في ملف الملاحظات)"></textarea>
+      </div>
+      <div class="btns">
+        <button type="button" onclick="showNotification('تم حفظ التعديلات!')">حفظ</button>
+        <button name="submit" type="submit">إرسال الطلب إلى مدير المشروع</button>
+      </div>
+    </form>
+   
+  </div>
+  
+  <!-- =========== role6 (مدير المشروع بعد الملاحظات) =========== -->
+<div id="role8" class="container" style="display:none">
+  <h1><i class="bi bi-person-check"></i> مراجعة مدير المشروع – الإدارة الطالبة</h1>
+  <div class="alert-instructions">
+    <i class="bi bi-info-circle"></i>
+    <span>
+      يرجى مراجعة ملف الملاحظات النهائي، وإضافة أو دمج أي تعديلات مطلوبة. بعد ذلك، أعد رفع النسخة النهائية من الملف <br>
+    </span>
+  </div>
+  <div class="details-box">
+    <p><strong><i class="bi bi-signpost"></i> اسم المنافسة:</strong> تطوير البوابة الداخلية</p>
+    <p><strong><i class="bi bi-person-badge"></i> مدير المشروع:</strong> أحمد السلمي</p>
+    <p><strong><i class="bi bi-building"></i> الإدارة:</strong> تقنية المعلومات</p>
+    <p><strong><i class="bi bi-calendar-day"></i> التاريخ:</strong> 2025-06-13</p>
+    <p><strong><i class="bi bi-bullseye"></i> الغرض من المنافسة:</strong> تحسين تجربة الوصول للخدمات الداخلية</p>
+    <p><strong><i class="bi bi-hourglass-split"></i> مدة التنفيذ:</strong> 6 أشهر</p>
+    <p><strong><i class="bi bi-currency-dollar"></i> النطاق السعري:</strong> (500.000 | 101.000)</p>
+  </div>
+  <h3 class="final-title" style="margin-bottom: 13px;">
+  <i class="bi bi-clipboard-check-fill"></i>
+  سجل مراجعة الإدارات
+</h3>
+  <table class="departments-order-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>اسم الإدارة</th>
+        <th>الحالة</th>
+        <th>اسم المراجع</th>
+        <th>وقت البدء</th>
+        <th>وقت الإرسال</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td class="done">الأمن السيبراني</td>
+        <td class="done"><i class="bi bi-check-circle-fill status-icon" style="color:#54b17a" title="تمت المراجعة"></i> تمت المراجعة</td>
+        <td class="done">أ. عبدالله العنزي</td>
+        <td class="done">2025-06-13 10:00</td>
+        <td class="done">2025-06-13 11:00</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td class="done">المالية</td>
+        <td class="done"><i class="bi bi-check-circle-fill status-icon" style="color:#54b17a" title="تمت المراجعة"></i> تمت المراجعة</td>
+        <td class="done">أ. نورة السالم</td>
+        <td class="done">2025-06-13 11:05</td>
+        <td class="done">2025-06-13 11:40</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td class="done">إدارة الموارد البشرية</td>
+        <td class="done"><i class="bi bi-check-circle-fill status-icon" style="color:#54b17a" title="تمت المراجعة"></i> تمت المراجعة</td>
+        <td class="done">د. سارة البقمي</td>
+        <td class="done">2025-06-13 12:00</td>
+        <td class="done">2025-06-13 12:25</td>
+      </tr>
+    </tbody>
+  </table>
+
+    <!-- قسم ملف الملاحظات النهائي الموحد -->
+  <div class="attachments-box" style="margin: 16px 0 18px 0;">
+    <strong style="margin-bottom:10px"><i class="bi bi-paperclip"></i> ملف الملاحظات النهائي</strong>
+    <div class="attachments-list">
+      <a href="#" download><i class="bi bi-download"></i> تحميل ملف الملاحظات (Word)</a>
+      <a href="#" target="_blank"><i class="bi bi-eye"></i> معاينة الملف</a>
+      <span class="last-updated-info" style="display:block; margin-top:6px;">
+        <i class="bi bi-person-circle"></i>
+        آخر تحديث بواسطة: <b style="color:#217b59;">د. سارة البقمي</b> | 13/06/2025 12:25 مساءً
+      </span>
+    </div>
+  </div>
+  <form onsubmit="event.preventDefault(); openModal();">
+    <div class="upload-section">
+      <label for="finalFile"><i class="bi bi-upload"></i> رفع النسخة النهائية بعد مراجعتكم</label>
+      <input type="file" id="finalFile" name="finalFile" accept=".doc,.docx">
+      <div class="file-upload-name" id="fileUploadName"></div>
+    </div>
+    <div class="notes-before-send">
+      <label for="reviewNotes"><i class="bi bi-chat-left-text"></i> ملاحظات مدير المشروع (اختياري)</label>
+      <textarea id="reviewNotes" name="reviewNotes" placeholder="أضف أي ملاحظات ترغب في توضيحها لموظف المشتريات (لن تدمج في الملف)"></textarea>
+    </div>
+    <div class="btns">
+      <button type="button" onclick="showNotification('تم حفظ التعديلات!')">حفظ</button>
+      <button name="submit" type="submit">إرسال الطلب إلى موظف المشتريات</button>
+    </div>
+  </form>
+</div>
+
+  
+    <!-- =========== role7 (موظف المشتريات المراجعة النهائية ) =========== -->
+<div id="role9" class="container" style="display:none">
+  <h1><i class="bi bi-clipboard-check"></i> مراجعة موظف المشتريات النهائية</h1>
+  <div class="alert-instructions">
+    <i class="bi bi-info-circle"></i>
+    يرجى مراجعة ملف الملاحظات النهائي والتأكد من اكتمال جميع الملاحظات. يمكنك بعدها إرسال الطلب، أو إعادته عند الحاجة.
+  </div>
+  <div class="details-box">
+    <p><strong><i class="bi bi-signpost"></i> اسم المنافسة:</strong> تطوير البوابة الداخلية</p>
+    <p><strong><i class="bi bi-person-badge"></i> مدير المشروع:</strong> أحمد السلمي</p>
+    <p><strong><i class="bi bi-building"></i> الإدارة:</strong> تقنية المعلومات</p>
+    <p><strong><i class="bi bi-calendar-day"></i> التاريخ:</strong> 2025-06-13</p>
+    <p><strong><i class="bi bi-bullseye"></i> الغرض من المنافسة:</strong> تحسين تجربة الوصول للخدمات الداخلية</p>
+    <p><strong><i class="bi bi-hourglass-split"></i> مدة التنفيذ:</strong> 6 أشهر</p>
+    <p><strong><i class="bi bi-currency-dollar"></i> النطاق السعري:</strong> (500.000 | 101.000)</p>
+  </div>
+ 
+  <h3 class="final-title"><i class="bi bi-archive"></i> سجل تسليم النسخة النهائية من كل إدارة</h3>
+<table class="departments-order-table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>الجهة/الإدارة</th>
+      <th>اسم المسؤول</th>
+      <th>تاريخ التسليم</th>
+      <th>تحميل النسخة</th>
+      <th>ملاحظات</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>الأمن السيبراني</td>
+      <td>أ. عبدالله العنزي</td>
+      <td>2025-06-13 11:00</td>
+      <td><a href="#">تحميل</a></td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>المالية</td>
+      <td>أ. نورة السالم</td>
+      <td>2025-06-13 11:40</td>
+      <td><a href="#">تحميل</a></td>
+      <td>-</td>
+    </tr>
+    <tr class="final-row">
+      <td>3</td>
+      <td>مدير المشروع</td>
+      <td>م. أحمد السلمي</td>
+      <td>2025-06-13 12:25</td>
+      <td>
+        <a href="#" class="final-download">تحميل</a>
+       
+      </td>
+      <td style="color:#217b59; font-weight:700;">
+        <i class="bi bi-check-circle-fill"></i> نسخة نهائية
+      </td>
+    </tr>
+  </tbody>
+</table>
+ <h3 class="final-title"><i class="bi bi-clipboard-check-fill"></i> سجل الاعتمادات</h3>
+<table class="approval-table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>المرحلة</th>
+      <th>الاسم</th>
+      <th>الحالة</th>
+      <th>تاريخ البدء</th>
+      <th>تاريخ الإرسال</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>مقدم الطلب</td>
+      <td>أحمد السلمي</td>
+      <td class="status-success"><i class="bi bi-check-circle-fill status-icon"></i> تم الإرسال</td>
+      <td>2025-06-12 08:00</td>
+      <td>2025-06-12 08:02</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>مدير الإدارة</td>
+      <td>محمد الغامدي</td>
+      <td class="status-success"><i class="bi bi-check-circle-fill status-icon"></i> تم الاعتماد</td>
+      <td>2025-06-12 09:00</td>
+      <td>2025-06-12 10:00</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>خبير المشتريات</td>
+      <td>خالد بن سعود</td>
+      <td class="status-success"><i class="bi bi-check-circle-fill status-icon"></i> تم المراجعة</td>
+      <td>2025-06-13 08:10</td>
+      <td>2025-06-13 09:30</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>موظف المشتريات</td>
+      <td>منى الزهراني</td>
+      <td class="status-success"><i class="bi bi-check-circle-fill status-icon"></i> تم المراجعة</td>
+      <td>2025-06-13 09:35</td>
+      <td>2025-06-13 10:15</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>مراجعة الإدارات</td>
+      <td>عدة إدارات</td>
+      <td class="status-success"><i class="bi bi-check-circle-fill status-icon"></i> تمت المراجعة</td>
+      <td>2025-06-13 10:20</td>
+      <td>2025-06-13 12:25</td>
+    </tr>
+    <tr class="final-row">
+      <td>6</td>
+      <td>مدير المشروع</td>
+      <td>م. أحمد السلمي</td>
+      <td class="status-success"><i class="bi bi-check-circle-fill status-icon"></i> تم تضمين الملاحظات</td>
+      <td>2025-06-13 12:26</td>
+      <td>2025-06-13 12:30</td>
+    </tr>
+  </tbody>
+</table>
+
+  <div class="notes-before-send">
+    <label for="reviewNotes7"><i class="bi bi-chat-left-text"></i> ملاحظات موظف المشتريات (اختياري)</label>
+    <textarea id="reviewNotes7" name="reviewNotes7" placeholder="أضف أي ملاحظات ترغب في توضيحها"></textarea>
+  </div>
+  <div class="btns">
+    <button name="submit" type="button" onclick="showNotification('تم إرسال الطلب!')">إرسال إلى الادارة المالية </button>
+    <button type="button" onclick="showNotification('تمت إعادة الطلب للإدارات!')">إعادة للإدارات للمراجعة</button>
+    <button type="button" onclick="showNotification('تمت إعادة الطلب إلى الإدارة الطالبة!')">إعادة إلى الإدارة الطالبة</button>
+  </div>
+</div>
+
+
+ 
+  <!--role9(مدير الإدارة العامة للخدمات المشتركة) -->
+<div id="role10" class="container" style="display:none">
+  <h1><i class="bi bi-person-gear"></i> مراجعة مدير الإدارة العامة للخدمات المشتركة</h1>
+ 
+  <!-- تفاصيل الطلب -->
+    <div class="details-box">
+    <p><strong><i class="bi bi-signpost"></i> اسم المنافسة:</strong> تطوير البوابة الداخلية</p>
+    <p><strong><i class="bi bi-person-badge"></i> مدير المشروع:</strong> أحمد السلمي</p>
+    <p><strong><i class="bi bi-building"></i> الإدارة:</strong> تقنية المعلومات</p>
+    <p><strong><i class="bi bi-calendar-day"></i> التاريخ:</strong> 2025-06-13</p>
+    <p><strong><i class="bi bi-bullseye"></i> الغرض من المنافسة:</strong> تحسين تجربة الوصول للخدمات الداخلية</p>
+    <p><strong><i class="bi bi-hourglass-split"></i> مدة التنفيذ:</strong> 6 أشهر</p>
+    <p><strong><i class="bi bi-currency-dollar"></i> النطاق السعري:</strong> (500.000 | 101.000)</p>
+  </div>
+  
+  <!-- سجل تسليم النسخ النهائية -->
+  <h3 class="final-title"><i class="bi bi-clipboard-check"></i> سجل تسليم النسخ النهائية</h3>
+  <table class="departments-order-table" style="margin-bottom:22px;">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>الجهة/الإدارة</th>
+        <th>اسم المسؤول</th>
+        <th>تاريخ التسليم</th>
+        <th>تحميل النسخة</th>
+        <th>ملاحظات</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>الأمن السيبراني</td>
+        <td>أ. عبدالله العنزي</td>
+        <td>2025-06-13 11:00</td>
+        <td><a href="#">تحميل</a></td>
+        <td>-</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>المالية</td>
+        <td>أ. نورة السالم</td>
+        <td>2025-06-13 11:40</td>
+        <td><a href="#">تحميل</a></td>
+        <td>-</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>مدير المشروع</td>
+        <td>م. أحمد السلمي</td>
+        <td>2025-06-13 12:25</td>
+        <td><a href="#">تحميل</a></td>
+        <td style="color:#217b59; font-weight:700;">
+          <i class="bi bi-check-circle-fill"></i> النسخة النهائية
+        </td>
+      </tr>
+    </tbody>
+  </table>
+ <!-- سجل الاعتمادات الجديد -->
+  <h3 class="final-title"><i class="bi bi-clipboard-check-fill"></i> سجل الاعتمادات</h3>
+  <table class="approval-table" style="margin-bottom:26px;">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>المرحلة</th>
+        <th>المعتمد</th>
+        <th>التاريخ</th>
+        <th>الحالة</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>مقدم الطلب</td><td>أحمد السلمي</td><td>2025-06-10</td><td class="status-success">تم الإرسال</td></tr>
+      <tr><td>2</td><td>مدير الإدارة</td><td>م. خالد الفهيد</td><td>2025-06-11</td><td class="status-success">معتمد</td></tr>
+      <tr><td>3</td><td>خبير المشتريات</td><td>أ. نورة السالم</td><td>2025-06-12</td><td class="status-success">معتمد</td></tr>
+      <tr><td>4</td><td>الإدارات ذات العلاقة</td><td>د. سارة البقمي</td><td>2025-06-13</td><td class="status-success">معتمد</td></tr>
+      <tr><td>5</td><td>موظف المشتريات</td><td>منى الزهراني</td><td>2025-06-13</td><td class="status-success">مدقق</td></tr>
+      <tr><td>6</td><td>مدير المشروع (الإدارة الطالبة)</td><td>م. أحمد السلمي</td><td>2025-06-13</td><td class="status-success">معتمد</td></tr>
+      <tr><td>7</td><td>موظف المشتريات بعد تضمين الملاحظات</td><td>منى الزهراني</td><td>2025-06-13</td><td class="status-success">مدقق نهائي</td></tr>
+      <tr><td>8</td><td>مراجعة موظف المشتريات النهائية</td><td>منى الزهراني</td><td>2025-06-13</td><td class="status-success">مكتمل</td></tr>
+      <tr><td>9</td><td>الادارة المالية</td><td>أ. نورة السالم</td><td>2025-06-14</td><td class="status-success">معتمد</td></tr>
+      <tr><td>10</td><td>مدير إدارة المشتريات</td><td>أ. عبدالله الحربي</td><td>2025-06-14</td><td class="status-success">معتمد</td></tr>
+      <tr><td>11</td><td>مدير الإدارة العامة للخدمات المشتركة</td><td>د. عبدالله الأحمرس</td><td>2025-06-14</td><td class="status-pending">قيد المراجعة</td></tr>
+    </tbody>
+  </table>
+  
+ <!-- ملاحظات وأزرار -->
+  <div class="notes-before-send">
+    <label for="notes8"><i class="bi bi-chat-left-text"></i> ملاحظات (اختياري)</label>
+    <textarea id="notes8" name="notes8" placeholder="أضف أي ملاحظات"></textarea>
+  </div>
+  <div class="btns">
+   <button class="main-btn submit-btn" type="button"><i class="bi bi-send"></i> اعتماد نهائي </button>
+    <button class="main-btn submit-btn" type="button"><i class="bi bi-send"></i> إرسال إلى مدير عام المركز</button>
+    <button class="main-btn return-btn" type="button"><i class="bi bi-arrow-repeat"></i> إعادة إلى مدير المشتريات</button>
+  </div>
+</div>
+  
+  
+  <!--role10 (مدير عام المركز) -->
+<div id="role11" class="container" style="display:none">
+  <h1><i class="bi bi-person-gear"></i> اعتماد عام المركز</h1>
+ 
+  <!-- تفاصيل الطلب -->
+    <div class="details-box">
+    <p><strong><i class="bi bi-signpost"></i> اسم المنافسة:</strong> تطوير البوابة الداخلية</p>
+    <p><strong><i class="bi bi-person-badge"></i> مدير المشروع:</strong> أحمد السلمي</p>
+    <p><strong><i class="bi bi-building"></i> الإدارة:</strong> تقنية المعلومات</p>
+    <p><strong><i class="bi bi-calendar-day"></i> التاريخ:</strong> 2025-06-13</p>
+    <p><strong><i class="bi bi-bullseye"></i> الغرض من المنافسة:</strong> تحسين تجربة الوصول للخدمات الداخلية</p>
+    <p><strong><i class="bi bi-hourglass-split"></i> مدة التنفيذ:</strong> 6 أشهر</p>
+    <p><strong><i class="bi bi-currency-dollar"></i> النطاق السعري:</strong> (500.000 | 101.000)</p>
+  </div>
+  
+  <!-- سجل تسليم النسخ النهائية -->
+  <h3 class="final-title"><i class="bi bi-clipboard-check"></i> سجل تسليم النسخ النهائية</h3>
+  <table class="departments-order-table" style="margin-bottom:22px;">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>الجهة/الإدارة</th>
+        <th>اسم المسؤول</th>
+        <th>تاريخ التسليم</th>
+        <th>تحميل النسخة</th>
+        <th>ملاحظات</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>الأمن السيبراني</td>
+        <td>أ. عبدالله العنزي</td>
+        <td>2025-06-13 11:00</td>
+        <td><a href="#">تحميل</a></td>
+        <td>-</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>المالية</td>
+        <td>أ. نورة السالم</td>
+        <td>2025-06-13 11:40</td>
+        <td><a href="#">تحميل</a></td>
+        <td>-</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>مدير المشروع</td>
+        <td>م. أحمد السلمي</td>
+        <td>2025-06-13 12:25</td>
+        <td><a href="#">تحميل</a></td>
+        <td style="color:#217b59; font-weight:700;">
+          <i class="bi bi-check-circle-fill"></i> النسخة النهائية
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- سجل الاعتمادات الجديد -->
+  <h3 class="final-title"><i class="bi bi-clipboard-check-fill"></i> سجل الاعتمادات</h3>
+  <table class="approval-table" style="margin-bottom:26px;">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>المرحلة</th>
+        <th>المعتمد</th>
+        <th>التاريخ</th>
+        <th>الحالة</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>مقدم الطلب</td><td>أحمد السلمي</td><td>2025-06-10</td><td class="status-success">تم الإرسال</td></tr>
+      <tr><td>2</td><td>مدير الإدارة</td><td>م. خالد الفهيد</td><td>2025-06-11</td><td class="status-success">معتمد</td></tr>
+      <tr><td>3</td><td>خبير المشتريات</td><td>أ. نورة السالم</td><td>2025-06-12</td><td class="status-success">معتمد</td></tr>
+      <tr><td>4</td><td>الإدارات ذات العلاقة</td><td>د. سارة البقمي</td><td>2025-06-13</td><td class="status-success">معتمد</td></tr>
+      <tr><td>5</td><td>موظف المشتريات</td><td>منى الزهراني</td><td>2025-06-13</td><td class="status-success">مدقق</td></tr>
+      <tr><td>6</td><td>مدير المشروع (الإدارة الطالبة)</td><td>م. أحمد السلمي</td><td>2025-06-13</td><td class="status-success">معتمد</td></tr>
+      <tr><td>7</td><td>موظف المشتريات بعد تضمين الملاحظات</td><td>منى الزهراني</td><td>2025-06-13</td><td class="status-success">مدقق نهائي</td></tr>
+      <tr><td>8</td><td>مراجعة موظف المشتريات النهائية</td><td>منى الزهراني</td><td>2025-06-13</td><td class="status-success">مكتمل</td></tr>
+      <tr><td>9</td><td>الادارة المالية</td><td>أ. نورة السالم</td><td>2025-06-14</td><td class="status-success">معتمد</td></tr>
+      <tr><td>10</td><td>مدير إدارة المشتريات</td><td>أ. عبدالله الحربي</td><td>2025-06-14</td><td class="status-success">معتمد</td></tr>
+      <tr><td>11</td><td>مدير الإدارة العامة للخدمات المشتركة</td><td>د. عبدالله الأحمرس</td><td>2025-06-14</td><td class="status-success">معتمد</td></tr>
+      <tr><td>12</td><td>مدير عام المركز</td><td>م. عبد الرحمن القحطاني</td><td>2025-06-14</td><td class="status-pending">قيد المراجعة</td></tr>
+    </tbody>
+  </table>
+  
+  
+ <!-- ملاحظات وأزرار -->
+  <div class="notes-before-send">
+    <label for="notes8"><i class="bi bi-chat-left-text"></i> ملاحظات (اختياري)</label>
+    <textarea id="notes8" name="notes8" placeholder="أضف أي ملاحظات"></textarea>
+  </div>
+  <div class="btns">
+
+    <button class="main-btn submit-btn" type="button"><i class="bi bi-send"></i> اعتماد نهائي </button>
+    <button class="main-btn return-btn" type="button"><i class="bi bi-arrow-repeat"></i> إعادة إلى مدير المشتريات</button>
+    
+  </div>
+</div>
+  
+  </div>
+
+  
+  
+  
+  
+  
+  
+  
+  <!-- Modal التأكيد -->
+  <div class="modal-bg" id="modalBg">
+    <div class="modal">
+      <div class="modal-title"><i class="bi bi-exclamation-triangle"></i> تأكيد الإرسال</div>
+      <div class="modal-message">
+        هل أنت متأكد من رغبتك في إرسال الملف؟<br>
+        بعد الإرسال لا يمكن التعديل.
+      </div>
+      <div class="modal-btns">
+        <button class="modal-confirm" onclick="submitForm()">تأكيد الإرسال</button>
+        <button class="modal-cancel" onclick="closeModal()">إلغاء</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Navigation & progress
+    function showRole(idx) {
+      // Hide all roles and remove active from all buttons
+      for(let r=0;r<=12;r++){
+        var roleDiv = document.getElementById('role'+r);
+        if (roleDiv) roleDiv.style.display = (r===idx?'block':'none');
+        var roleBtn = document.querySelectorAll('.role-btn')[r];
+        if (roleBtn) roleBtn.classList.toggle('active', r===idx);
+      }
+      // progress
+      const totalSteps = 12;
+      const percent = (idx/(totalSteps-1)) * 100 + '%';
+      document.getElementById('stepsBarFill').style.width=percent;
+      document.querySelectorAll('.step-node').forEach((el,i)=>{
+        el.classList.toggle('done', i<idx);
+        el.classList.toggle('active', i===idx);
+      });
+    }
+    if(document.getElementById('role0')) showRole(0);
+
+    // Conditional reason field
+    var plan0 = document.getElementById('plan0');
+    if(plan0) {
+      plan0.addEventListener('change',e=>{
+        var reasonDiv = document.getElementById('reason0');
+        if(reasonDiv) reasonDiv.style.display = e.target.value==='no'?'block':'none';
+      });
+    }
+
+    // Departments table logic
+    let departments = ["الأمن السيبراني","المالية"];
+    function renderDepartments(){
+      const tbody = document.getElementById('departments-body');
+      if (!tbody) return;
+      tbody.innerHTML = departments.map((dep,i)=>`
+        <tr>
+          <td>${i+1}</td>
+          <td>${dep}</td>
+          <td>
+            <button onclick="moveUp(${i})" title="أعلى"><i class="bi bi-arrow-up"></i></button>
+            <button onclick="moveDown(${i})" title="أسفل"><i class="bi bi-arrow-down"></i></button>
+            <button onclick="removeDepartment(${i})" title="حذف"><i class="bi bi-trash"></i></button>
+          </td>
+        </tr>`).join('');
+    }
+    function addDepartment(){
+      const sel = document.getElementById('department-select');
+      if(sel){
+        const val = sel.value;
+        if(val && !departments.includes(val)){
+          departments.push(val); renderDepartments();
+        }
+      }
+    }
+    function removeDepartment(i){ departments.splice(i,1); renderDepartments(); }
+    function moveUp(i){ if(i>0){ departments.splice(i-1,0,departments.splice(i,1)[0]); renderDepartments(); } }
+    function moveDown(i){ if(i<departments.length-1){ departments.splice(i+1,0,departments.splice(i,1)[0]); renderDepartments(); } }
+    if(document.getElementById('departments-body')) renderDepartments();
+
+    // Notification
+    function showNotification(msg){
+      const n = document.getElementById('notification');
+      if(!n) return;
+      n.textContent = msg; n.style.display='block'; n.style.opacity=1;
+      setTimeout(()=>{ n.style.opacity=0; setTimeout(()=>n.style.display='none',300); },1800);
+    }
+
+    // Show/Hide Local Content Mechanism select
+    function toggleLocalContentMethod() {
+      var cond = document.getElementById('local-content-cond');
+      var div = document.getElementById('local-content-method-div');
+      if(cond && div)
+        div.style.display = cond.value === 'applies' ? 'block' : 'none';
+    }
+
+    // Modal logic (reused for all forms)
+    function openModal(){
+      var bg = document.getElementById('modalBg');
+      if(bg) bg.classList.add('active');
+    }
+    function closeModal(){
+      var bg = document.getElementById('modalBg');
+      if(bg) bg.classList.remove('active');
+    }
+    function submitForm(){
+      closeModal();
+      showNotification('تم إرسال الملف بنجاح!');
+    }
+
+    // If any input[type=file], show file name on selection (for all step forms)
+    document.addEventListener('change',function(e){
+      if(e.target.type==='file'){
+        var fileName = e.target.files[0]? e.target.files[0].name : '';
+        var parent = e.target.closest('form, .details-box, .upload-section');
+        var fileUploadNameDiv = parent? parent.querySelector('.file-upload-name') : null;
+        if(fileUploadNameDiv) fileUploadNameDiv.textContent = fileName;
+      }
+    });
+  </script>
+
+</body>
+</html>
