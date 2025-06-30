@@ -6,5 +6,6 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'counter', component: CounterComponent },
-  { path: 'fetch-data', component: FetchDataComponent }
+  { path: 'fetch-data', component: FetchDataComponent },
+  { path: 'procurement-forms', loadComponent: () => import('./procurement-forms/procurement-forms.component').then(m => m.ProcurementFormsComponent) }
 ];

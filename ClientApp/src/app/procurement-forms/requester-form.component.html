@@ -1,0 +1,12 @@
+<h1>طلب طرح منافسة</h1>
+<form [formGroup]="form" class="details-box" (ngSubmit)="next()">
+  <label>مدير المشروع</label>
+  <input formControlName="projectManager" type="text" />
+  <label>الإدارة</label>
+  <input formControlName="department" type="text" />
+  <label>التاريخ</label>
+  <input formControlName="date" type="date" />
+  <label>اسم المنافسة</label>
+  <input formControlName="competitionName" type="text" />
+  <button class="main-btn submit-btn" type="submit">التالي</button>
+</form>
