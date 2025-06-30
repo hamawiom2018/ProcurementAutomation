@@ -1,0 +1,76 @@
+  /* فقط تعديل الحقول والحقول النشطة بلون رمادي */
+  .details-box input,
+  .details-box select,
+  .details-box textarea,
+  .attachments-box input[type="file"] {
+    width: 100%;
+    padding: 12px;
+    font-size: 1em;
+    border: 1.3px solid #dadada;
+    border-radius: 10px;
+    background: #f4f4f6;
+    margin-bottom: 2px;
+    transition: border-color .16s, box-shadow .16s;
+    color: #444;
+  }
+  .details-box input:focus,
+  .details-box select:focus,
+  .details-box textarea:focus {
+    border-color: #b0b0b6;
+    background: #fafafd;
+    outline: none;
+    box-shadow: 0 0 0 2px #ececec;
+  }
+  .details-box label {
+    color: #252525;
+    font-weight: 600;
+    margin: 13px 0 6px;
+    font-size: 1em;
+    display: block;
+  }
+  .attachments-box label {
+    color: #353535;
+    font-size: 1em;
+    font-weight: 500;
+    margin: 10px 0 4px;
+    display: block;
+  }
+
+  #managerOptions {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: flex-start;
+  }
+  #managerOptions label {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+  }
+  #managerOptions input[type="radio"] {
+    accent-color: var(--main-green);
+  }
+  .btns {
+    display: flex; 
+    justify-content: flex-end;
+    gap: 13px;
+    margin-top: 18px;
+  }
+  .btns button {
+    padding: 13px 32px;
+    border-radius: 10px;
+    font-weight: 700;
+    border: none;
+background: var(--main-green);
+    color: #fff;
+    font-size: 1.08em;
+    cursor: pointer;
+    transition: background .18s, transform .14s;
+  }
+  .btns button:hover, .btns button:focus {
+    background: #76767d;
+    transform: translateY(-2px) scale(1.02);
+  }
+

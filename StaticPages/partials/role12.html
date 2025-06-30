@@ -1,0 +1,103 @@
+<!-- role12 (إسناد الطلب لموظف المشتريات) -->
+<h1><i class="bi bi-person-plus"></i> إسناد الطلب لموظف المشتريات</h1>
+<div class="details-box">
+  <p><strong><i class="bi bi-signpost"></i> اسم المنافسة:</strong> تطوير البوابة الداخلية</p>
+  <p><strong><i class="bi bi-person-badge"></i> مدير المشروع:</strong> أحمد السلمي</p>
+  <p><strong><i class="bi bi-building"></i> الإدارة:</strong> تقنية المعلومات</p>
+  <p><strong><i class="bi bi-calendar-day"></i> التاريخ:</strong> 2025-06-13</p>
+  <p><strong><i class="bi bi-bullseye"></i> الغرض من المنافسة:</strong> تحسين تجربة الوصول للخدمات الداخلية</p>
+  <p><strong><i class="bi bi-hourglass-split"></i> مدة التنفيذ:</strong> 6 أشهر</p>
+  <p><strong><i class="bi bi-currency-dollar"></i> النطاق السعري:</strong> (500.000 | 101.000)</p>
+  <p><strong><i class="bi bi-cash-coin"></i> مبلغ التكلفة التقديرية:</strong> <span class="expert-cost-display">-</span></p>
+</div>
+<div class="details-box">
+  <h3 style="margin-bottom:12px; color:#217b59; display:flex; align-items:center; gap:6px;">
+    <i class="bi bi-wallet2"></i> بيانات الإدارة المالية
+  </h3>
+  <p><i class="bi bi-link-45deg"></i> حالة الارتباط المالي: متوفر</p>
+  <p><i class="bi bi-123"></i> رقم البند المخصص في الميزانية: 12345</p>
+  <p><i class="bi bi-map"></i> هل المشروع ضمن الخطة؟ نعم</p>
+  <p><i class="bi bi-chat-left-text"></i> ملاحظات موظف المالية: لا توجد</p>
+</div>
+<h3 class="final-title"><i class="bi bi-clipboard-check"></i> سجل الإعتمادات</h3>
+<table class="approval-table" style="margin-bottom:26px;">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>المرحلة</th>
+      <th>المعتمد</th>
+      <th>التاريخ</th>
+      <th>الحالة</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>مقدم الطلب</td>
+      <td>أحمد السلمي</td>
+      <td>2025-06-10</td>
+      <td class="status-success">تم الإرسال</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>مدير الإدارة</td>
+      <td>م. خالد الفهيد</td>
+      <td>2025-06-11</td>
+      <td class="status-success">معتمد</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>خبير المشتريات</td>
+      <td>أ. نورة السالم</td>
+      <td>2025-06-12</td>
+      <td class="status-success">معتمد</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>ممثل الإدارة المالية</td>
+      <td>أ. نورة السالم</td>
+      <td>2025-06-14</td>
+      <td class="status-success">معتمد</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>مدير إدارة المشتريات</td>
+      <td>أ. عبدالله الحربي</td>
+      <td>2025-06-15</td>
+      <td class="status-success">معتمد</td>
+    </tr>
+    <tr class="final-row">
+      <td>6</td>
+      <td>مدير الإدارة العامة للخدمات المشتركة</td>
+      <td>أ. محمد الغامدي</td>
+      <td>2025-06-16</td>
+      <td class="status-success">معتمد</td>
+    </tr>
+    <tr class="final-row">
+      <td>7</td>
+      <td>مدير عام المركز</td>
+      <td>أ. فهد العتيبي</td>
+      <td>2025-06-17</td>
+      <td class="status-success">معتمد</td>
+    </tr>
+    <tr class="final-row">
+      <td>8</td>
+      <td>مدير المشتريات</td>
+      <td>أ. عبدالله الحربي</td>
+      <td>2025-06-18</td>
+      <td class="status-pending">قيد إسناد الطلب</td>
+    </tr>
+  </tbody>
+</table>
+<div class="details-box">
+  <label for="assignee"><i class="bi bi-person"></i> اختر الموظف</label>
+  <select id="assignee">
+    <option value="">-- اختر الموظف --</option>
+    <option>منى الزهراني</option>
+    <option>عبدالله العتيبي</option>
+    <option>نورة السالم</option>
+  </select>
+  <div class="btns" style="margin-top:16px;">
+    <button class="main-btn submit-btn" type="button" onclick="assignToProcurement()"><i class="bi bi-send"></i> إسناد</button>
+  </div>
+</div>

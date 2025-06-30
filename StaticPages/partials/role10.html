@@ -1,0 +1,87 @@
+  <!-- =========== role6 (مدير المشروع بعد الملاحظات) =========== -->
+  <h1><i class="bi bi-person-check"></i> مراجعة مدير المشروع – الإدارة الطالبة</h1>
+  <div class="alert-instructions">
+    <i class="bi bi-info-circle"></i>
+    <span>
+      يرجى مراجعة ملف الملاحظات النهائي، وإضافة أو دمج أي تعديلات مطلوبة. بعد ذلك، أعد رفع النسخة النهائية من الملف <br>
+    </span>
+  </div>
+  <div class="details-box">
+    <p><strong><i class="bi bi-signpost"></i> اسم المنافسة:</strong> تطوير البوابة الداخلية</p>
+    <p><strong><i class="bi bi-person-badge"></i> مدير المشروع:</strong> أحمد السلمي</p>
+    <p><strong><i class="bi bi-building"></i> الإدارة:</strong> تقنية المعلومات</p>
+    <p><strong><i class="bi bi-calendar-day"></i> التاريخ:</strong> 2025-06-13</p>
+    <p><strong><i class="bi bi-bullseye"></i> الغرض من المنافسة:</strong> تحسين تجربة الوصول للخدمات الداخلية</p>
+    <p><strong><i class="bi bi-hourglass-split"></i> مدة التنفيذ:</strong> 6 أشهر</p>
+    <p><strong><i class="bi bi-currency-dollar"></i> النطاق السعري:</strong> (500.000 | 101.000)</p>
+  </div>
+  <h3 class="final-title" style="margin-bottom: 13px;">
+  <i class="bi bi-clipboard-check-fill"></i>
+  سجل مراجعة الإدارات
+</h3>
+  <table class="departments-order-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>اسم الإدارة</th>
+        <th>الحالة</th>
+        <th>اسم المراجع</th>
+        <th>وقت البدء</th>
+        <th>وقت الإرسال</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td class="done">الأمن السيبراني</td>
+        <td class="done"><i class="bi bi-check-circle-fill status-icon" style="color:#54b17a" title="تمت المراجعة"></i> تمت المراجعة</td>
+        <td class="done">أ. عبدالله العنزي</td>
+        <td class="done">2025-06-13 10:00</td>
+        <td class="done">2025-06-13 11:00</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td class="done">المالية</td>
+        <td class="done"><i class="bi bi-check-circle-fill status-icon" style="color:#54b17a" title="تمت المراجعة"></i> تمت المراجعة</td>
+        <td class="done">أ. نورة السالم</td>
+        <td class="done">2025-06-13 11:05</td>
+        <td class="done">2025-06-13 11:40</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td class="done">إدارة الموارد البشرية</td>
+        <td class="done"><i class="bi bi-check-circle-fill status-icon" style="color:#54b17a" title="تمت المراجعة"></i> تمت المراجعة</td>
+        <td class="done">د. سارة البقمي</td>
+        <td class="done">2025-06-13 12:00</td>
+        <td class="done">2025-06-13 12:25</td>
+      </tr>
+    </tbody>
+  </table>
+
+    <!-- قسم ملف الملاحظات النهائي الموحد -->
+  <div class="attachments-box" style="margin: 16px 0 18px 0;">
+    <strong style="margin-bottom:10px"><i class="bi bi-paperclip"></i> ملف الملاحظات النهائي</strong>
+    <div class="attachments-list">
+      <a href="#" download><i class="bi bi-download"></i> تحميل ملف الملاحظات (Word)</a>
+      <a href="#" target="_blank"><i class="bi bi-eye"></i> معاينة الملف</a>
+      <span class="last-updated-info" style="display:block; margin-top:6px;">
+        <i class="bi bi-person-circle"></i>
+        آخر تحديث بواسطة: <b style="color:#217b59;">د. سارة البقمي</b> | 13/06/2025 12:25 مساءً
+      </span>
+    </div>
+  </div>
+  <form onsubmit="event.preventDefault(); openModal();">
+    <div class="upload-section">
+      <label for="finalFile"><i class="bi bi-upload"></i> رفع النسخة النهائية بعد مراجعتكم</label>
+      <input type="file" id="finalFile" name="finalFile" accept=".doc,.docx">
+      <div class="file-upload-name" id="fileUploadName"></div>
+    </div>
+    <div class="notes-before-send">
+      <label for="reviewNotes"><i class="bi bi-chat-left-text"></i> ملاحظات مدير المشروع (اختياري)</label>
+      <textarea id="reviewNotes" name="reviewNotes" placeholder="أضف أي ملاحظات ترغب في توضيحها لموظف المشتريات (لن تدمج في الملف)"></textarea>
+    </div>
+    <div class="btns">
+      <button type="button" onclick="showNotification('تم حفظ التعديلات!')">حفظ</button>
+      <button name="submit" type="submit">إرسال الطلب إلى موظف المشتريات</button>
+    </div>
+  </form>

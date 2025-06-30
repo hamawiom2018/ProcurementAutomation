@@ -1,0 +1,153 @@
+<!-- =========== role3 (موظف المشتريات) =========== -->
+<h1><i class="bi bi-person-vcard"></i> مراجعة موظف المشتريات</h1>
+<div class="details-box">
+  <p><i class="bi bi-clipboard-check"></i><strong>تفاصيل الطلب </strong></p>
+  <p><strong>اسم المنافسة:</strong> تطوير منصة داخلية</p>
+  <p><strong>مدير المشروع:</strong> أحمد السلمي</p>
+  <p><strong>الإدارة:</strong> تقنية المعلومات</p>
+  <p><strong>تاريخ تقديم الطلب:</strong> 2025-06-13</p>
+  <p><strong>الغرض:</strong> تحسين تجربة الاستخدام الداخلي</p>
+  <p><strong>مدة التنفيذ:</strong> 6 أشهر</p>
+  <p><strong>النطاق السعري:</strong> 101,000‑500,000</p>
+  <p><strong>مرفق نطاق العمل:</strong> <a class="download-link" href="#">تحميل</a></p>
+</div>
+<div class="details-box">
+  <label for="comp-type">نوع المنافسة <span style="color:#e34">*</span></label>
+  <select id="comp-type" required>
+    <option value="">-- اختر النوع --</option>
+    <option value="public">منافسة عامة</option>
+    <option value="limited">منافسة محدودة</option>
+    <option value="direct">شراء مباشر</option>
+    <option value="practice">ممارسة</option>
+  </select>
+  <label for="comp-activity">نشاط المنافسة <span style="color:#e34">*</span></label>
+  <select id="comp-activity" required>
+    <option value="">-- اختر النشاط --</option>
+    <option value="it">تقنية معلومات</option>
+    <option value="construction">إنشاءات</option>
+    <option value="supply">توريد</option>
+    <option value="consulting">استشارات</option>
+    <option value="other">أخرى</option>
+  </select>
+  <label for="local-content-cond">شروط وأحكام المحتوى المحلي <span style="color:#e34">*</span></label>
+  <select id="local-content-cond" required onchange="toggleLocalContentMethod()">
+    <option value="">-- اختر --</option>
+    <option value="applies">ينطبق</option>
+    <option value="not-applies">لا ينطبق</option>
+  </select>
+  <div id="local-content-method-div" style="display:none;">
+    <label for="local-content-method">آلية المحتوى المحلي <span style="color:#e34">*</span></label>
+    <select id="local-content-method">
+      <option value="">-- اختر الآلية --</option>
+      <option value="mandatory">آلية إلزامية</option>
+      <option value="preferential">آلية تفضيلية</option>
+      <option value="other">أخرى</option>
+    </select>
+  </div>
+</div>
+<div class="details-box">
+  <p><i class="bi bi-people"></i><strong>الإدارات ذات العلاقة</strong></p>
+  <div style="display:flex; gap:8px; margin-bottom:12px;">
+    <select id="department-select">
+      <option value="">-- اختر الإدارة --</option>
+      <option>الأمن السيبراني</option>
+      <option>المالية</option>
+      <option>الموارد البشرية</option>
+      <option>المشتريات</option>
+      <option>الدعم الفني</option>
+    </select>
+    <button onclick="addDepartment()">إضافة</button>
+  </div>
+  <table class="departments-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>الإدارة</th>
+        <th>الإجراء</th>
+      </tr>
+    </thead>
+    <tbody id="departments-body"></tbody>
+  </table>
+</div>
+<h3 class="final-title"><i class="bi bi-clipboard-check-fill"></i> سجل الاعتمادات</h3>
+<table class="approval-table" style="margin-bottom:26px;">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>المرحلة</th>
+      <th>المعتمد</th>
+      <th>التاريخ</th>
+      <th>الحالة</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>مقدم الطلب</td>
+      <td>أحمد السلمي</td>
+      <td>2025-06-10</td>
+      <td class="status-success">تم الإرسال</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>مدير الإدارة</td>
+      <td>م. خالد الفهيد</td>
+      <td>2025-06-11</td>
+      <td class="status-success">معتمد</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>خبير المشتريات</td>
+      <td>أ. نورة السالم</td>
+      <td>2025-06-12</td>
+      <td class="status-success">معتمد</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>ممثل الإدارة المالية</td>
+      <td>أ. نورة السالم</td>
+      <td>2025-06-14</td>
+      <td class="status-success">معتمد</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>مدير إدارة المشتريات</td>
+      <td>أ. عبدالله الحربي</td>
+      <td>2025-06-15</td>
+      <td class="status-success">معتمد</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>مدير الإدارة العامة للخدمات المشتركة</td>
+      <td>أ. محمد الغامدي</td>
+      <td>2025-06-16</td>
+      <td class="status-success">معتمد</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>مدير عام المركز</td>
+      <td>أ. فهد العتيبي</td>
+      <td>2025-06-17</td>
+      <td class="status-success">معتمد</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>مدير المشتريات</td>
+      <td>أ. عبدالله الحربي</td>
+      <td>2025-06-18</td>
+      <td class="status-success">تم إسناد الطلب إلى محمد الشهري</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>موظف المشتريات</td>
+      <td>محمد الشهري</td>
+      <td>2025-06-19</td>
+      <td class="status-pending">قيد المراجعة</td>
+    </tr>
+  </tbody>
+</table>
+<div class="btns">
+
+  <button class="main-btn submit-btn" type="button"><i class="bi bi-check-circle"></i> اعتماد المنافسة</button>
+  <button class="main-btn delete-btn" type="button"><i class="bi bi-x-circle"></i> رفض</button>
+</div>

@@ -1,0 +1,87 @@
+<!-- =========== role11 (موظف المالية) =========== -->
+  <h1><i class="bi bi-cash-coin"></i> مراجعة موظف المالية</h1>
+  
+  <div class="alert-instructions">
+    <i class="bi bi-info-circle"></i>
+    يرجى مراجعة تفاصيل الطلب، تعبئة البيانات المطلوبة، ثم اعتماد الطلب أو إعادته في حال وجود ملاحظات.
+  </div>
+  
+  <div class="details-box">
+    <p><strong><i class="bi bi-signpost"></i> اسم المنافسة:</strong> تطوير البوابة الداخلية</p>
+    <p><strong><i class="bi bi-person-badge"></i> مدير المشروع:</strong> أحمد السلمي</p>
+    <p><strong><i class="bi bi-building"></i> الإدارة:</strong> تقنية المعلومات</p>
+    <p><strong><i class="bi bi-calendar-day"></i> التاريخ:</strong> 2025-06-13</p>
+    <p><strong><i class="bi bi-bullseye"></i> الغرض من المنافسة:</strong> تحسين تجربة الوصول للخدمات الداخلية</p>
+    <p><strong><i class="bi bi-hourglass-split"></i> مدة التنفيذ:</strong> 6 أشهر</p>
+    <p><strong><i class="bi bi-currency-dollar"></i> النطاق السعري:</strong> (500.000 | 101.000)</p>
+    <p><strong><i class="bi bi-cash-coin"></i> مبلغ التكلفة التقديرية:</strong> <span class="expert-cost-display">-</span></p>
+  </div>
+
+  
+ <!-- سجل الاعتمادات الجديد -->
+  <h3 class="final-title"><i class="bi bi-clipboard-check-fill"></i> سجل الاعتمادات</h3>
+  <table class="approval-table" style="margin-bottom:26px;">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>المرحلة</th>
+        <th>المعتمد</th>
+        <th>التاريخ</th>
+        <th>الحالة</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>مقدم الطلب</td><td>أحمد السلمي</td><td>2025-06-10</td><td class="status-success">تم الإرسال</td></tr>
+      <tr><td>2</td><td>مدير الإدارة الطالبة</td><td>م. خالد الفهيد</td><td>2025-06-11</td><td class="status-success">معتمد</td></tr>
+      <tr><td>3</td><td>خبير المشتريات</td><td>أ. نورة السالم</td><td>2025-06-12</td><td class="status-success">معتمد</td></tr>
+      <tr><td>4</td><td>ممثل الإدارة المالية</td><td>أ. نورة السالم</td><td>2025-06-14</td><td class="status-pending">قيد المراجعة</td></tr>
+    </tbody>
+  </table>
+  <!-- تم إخفاء نموذج التكلفة التقديرية بناءً على التوجيهات -->
+
+<!-- مدخلات موظف المالية -->
+<div class="details-box">
+  <h3 style="margin-bottom:16px;color:#217b59;display:flex;align-items:center;gap:7px;">
+    <i class="bi bi-wallet2"></i>
+    البيانات المالية للطلب
+  </h3>
+  
+  <label style="margin-bottom:7px;"><i class="bi bi-link-45deg"></i> حالة الارتباط المالي:</label>
+  <div style="display:flex; gap:40px; margin-bottom:15px;">
+    <label style="display:flex; align-items:center; gap:6px; font-weight:600;">
+      <input type="radio" name="fin-link" id="fin-link-available" value="available" style="accent-color:#217b59;">
+      متوفر
+    </label>
+    <label style="display:flex; align-items:center; gap:6px; font-weight:600;">
+      <input type="radio" name="fin-link" id="fin-link-unavailable" value="unavailable" style="accent-color:#d54f3c;">
+      غير متوفر
+    </label>
+  </div>
+
+  <label for="budgetNo"><i class="bi bi-123"></i> رقم البند المخصص في الميزانية</label>
+  <input type="text" id="budgetNo" placeholder="أدخل رقم البند">
+
+  <label for="planFinance"><i class="bi bi-map"></i> هل المشروع ضمن الخطة؟</label>
+  <select id="planFinance">
+    <option></option>
+    <option value="yes">نعم</option>
+    <option value="no">لا</option>
+  </select>
+  <div id="reasonFinance" style="display:none;">
+    <label>السبب:</label>
+    <textarea></textarea>
+  </div>
+
+  <label for="financeNotes"><i class="bi bi-chat-left-text"></i> ملاحظات موظف المالية (اختياري)</label>
+  <textarea id="financeNotes" name="financeNotes" placeholder="أضف ملاحظاتك هنا"></textarea>
+</div>
+
+  
+  <div class="btns">
+    <button class="main-btn save-btn" type="button" onclick="showNotification('تم الحفظ!')">
+      <i class="bi bi-save"></i> حفظ
+    </button>
+    <button class="main-btn submit-btn" type="button" onclick="showNotification('تم إرسال الطلب إلى مدير إدارة المشتريات!')">
+      <i class="bi bi-check-circle"></i> ارسال الطلب الى مدير المشتريات 
+    </button>
+  </div>

@@ -1,0 +1,46 @@
+  <!-- =========== role2 (خبير المشتريات) =========== -->
+    <h1><i class="bi bi-person-vcard"></i> مراجعة خبير المشتريات</h1>
+    <div class="details-box">
+      <p><strong><i class="bi bi-person"></i> مدير المشروع:</strong> أحمد السلمي</p>
+      <p><strong><i class="bi bi-building"></i> الإدارة:</strong> تقنية المعلومات</p>
+      <p><strong><i class="bi bi-calendar"></i> التاريخ:</strong> 2025‑06‑13</p>
+      <p><strong><i class="bi bi-signpost"></i> اسم المنافسة:</strong> تطوير البوابة الداخلية</p>
+      <p><strong><i class="bi bi-bullseye"></i> الغرض:</strong> تحسين تجربة الخدمات</p>
+      <p><strong><i class="bi bi-clock"></i> مدة التنفيذ:</strong> 6 أشهر</p>
+      <p><strong><i class="bi bi-cash-coin"></i> النطاق السعري:</strong> 101,000‑500,000</p>
+    </div>
+    <div class="attachments-box">
+      <strong><i class="bi bi-paperclip"></i> المرفقات</strong>
+      <a href="#"><i class="bi bi-file-earmark-text"></i> نطاق العمل</a>
+
+      <a href="#"><i class="bi bi-file-earmark-pdf"></i> تحميل نموذج التكلفة التقديرية (PDF)</a>
+    </div>
+    <div class="details-box">
+      <label for="expert-cost"><i class="bi bi-currency-dollar"></i> سعر التكلفة التقديرية</label>
+      <input type="number" id="expert-cost" placeholder="أدخل المبلغ بالريال">
+      <p><i class="bi bi-info-circle"></i> سعر التكلفة التقديرية تكون ظاهرة فقط لمدير إدارة المشتريات وممثل الإدارة المالية و مدير الإدارة العامة للخدمات المشتركة ومدير عام المركز</p>
+    </div>
+    <!-- حقل التكلفة التقديرية يظهر فقط للإدارة المالية ومدير إدارة المشتريات ومدير الإدارة العامة للخدمات المشتركة ومدير عام المركز -->
+    <h3 class="final-title"><i class="bi bi-clipboard-check-fill"></i> سجل الاعتمادات</h3>
+    <table class="approval-table">
+      <thead>
+        <tr>
+          <th>المرحلة</th>
+          <th>الحالة</th>
+          <th>المراجع</th>
+          <th>وقت البدء</th>
+          <th>وقت الإرسال</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>مدير المشروع</td><td class="status-success"><i class="bi bi-check-circle-fill status-icon"></i> تمّ الإرسال</td><td>أحمد السلمي</td><td>2025‑06‑10 08:00</td><td>2025‑06‑10 08:02</td></tr>
+        <tr><td>مدير الإدارة</td><td class="status-success"><i class="bi bi-check-circle-fill status-icon"></i> تمّ الاعتماد</td><td>محمد الغامدي</td><td>2025‑06‑11 11:00</td><td>2025‑06‑11 11:15</td></tr>
+        <tr><td>خبير المشتريات</td><td class="status-pending"><i class="bi bi-clock-history status-icon"></i> قيد المراجعة</td><td>خالد بن سعود</td><td>2025‑06‑12 09:00</td><td>–</td></tr>
+      </tbody>
+    </table>
+<div class="btns">
+
+  <button class="main-btn submit-btn" type="button"><i class="bi bi-check-circle"></i> اعتماد</button>
+  <button class="main-btn return-btn" type="button"><i class="bi bi-arrow-repeat"></i> إعادة الطلب إلى مدير الإدارة الطالبة</button>
+  <button class="main-btn delete-btn" type="button"><i class="bi bi-x-circle"></i> رفض</button>
+</div>
