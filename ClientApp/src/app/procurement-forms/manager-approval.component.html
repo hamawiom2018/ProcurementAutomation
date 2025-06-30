@@ -1,0 +1,8 @@
+<h1>اعتماد مدير الإدارة</h1>
+<div class="details-box">
+  <p><strong>مدير المشروع:</strong> {{state.requester?.projectManager}}</p>
+  <p><strong>الإدارة:</strong> {{state.requester?.department}}</p>
+  <p><strong>التاريخ:</strong> {{state.requester?.date}}</p>
+  <p><strong>اسم المنافسة:</strong> {{state.requester?.competitionName}}</p>
+</div>
+<button class="main-btn submit-btn" (click)="next()">إنهاء</button>
