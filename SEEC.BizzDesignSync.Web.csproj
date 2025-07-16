@@ -1,17 +1,27 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
     <SpaRoot>ClientApp\</SpaRoot>
-    <SpaProxyServerUrl>https://localhost:44451</SpaProxyServerUrl>
+    <SpaProxyServerUrl>https://localhost:44452</SpaProxyServerUrl>
     <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="7.0.20" />
+    <PackageReference Include="AutoMapper" Version="15.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="8.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.7" />
+
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SEEC.BizzDesignSync.Model\SEEC.BizzDesignSync.Model.csproj" />
+    <ProjectReference Include="..\SEEC.BizzDesignSync.DataAccess\SEEC.BizzDesignSync.DataAccess.csproj" />
+    <ProjectReference Include="..\SEEC.BizzDesignSync.Service\SEEC.BizzDesignSync.Service.csproj" />
   </ItemGroup>
 
   <ItemGroup>

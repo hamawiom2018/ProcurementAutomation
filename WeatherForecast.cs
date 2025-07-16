@@ -1,4 +1,4 @@
-namespace ProcurementAutomation;
+namespace SEEC.BizzDesignSync.Web;
 
 public class WeatherForecast
 {

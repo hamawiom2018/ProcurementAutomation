@@ -9,7 +9,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/bin/Debug/net7.0/ProcurementAutomation.dll",
+            "program": "${workspaceFolder}/bin/Debug/net7.0/SEEC.BizzDesignSync.Web.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,

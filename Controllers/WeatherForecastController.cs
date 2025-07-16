@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace ProcurementAutomation.Controllers;
+namespace SEEC.BizzDesignSync.Web.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
